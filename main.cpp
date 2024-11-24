@@ -1,6 +1,7 @@
 #include "educationalapp.h"
 
 #include <QApplication>
+#include <character.h>
 
 int main(int argc, char *argv[])
 {
