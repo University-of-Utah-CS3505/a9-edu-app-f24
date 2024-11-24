@@ -1,5 +1,6 @@
 #include "educationalapp.h"
 #include "ui_educationalapp.h"
+#include "canvaslabel.h"
 
 EducationalApp::EducationalApp(QWidget *parent)
     : QMainWindow(parent)
