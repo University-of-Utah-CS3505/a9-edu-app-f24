@@ -12,14 +12,12 @@ SOURCES += \
     canvaslabel.cpp \
     character.cpp \
     main.cpp \
-    educationalapp.cpp \
-    mousebutton.cpp
+    educationalapp.cpp
 
 HEADERS += \
     canvaslabel.h \
     character.h \
-    educationalapp.h \
-    mousebutton.h
+    educationalapp.h
 
 FORMS += \
     educationalapp.ui

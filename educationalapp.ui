@@ -6,25 +6,116 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1169</width>
-    <height>754</height>
+    <width>1300</width>
+    <height>900</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>EducationalApp</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="canvaslabel" name="label">
+   <widget class="CanvasLabel" name="Canvas">
     <property name="geometry">
      <rect>
-      <x>450</x>
+      <x>580</x>
       <y>130</y>
-      <width>431</width>
-      <height>551</height>
+      <width>700</width>
+      <height>700</height>
      </rect>
     </property>
     <property name="text">
-     <string>TextLabel</string>
+     <string/>
+    </property>
+   </widget>
+   <widget class="QScrollArea" name="CharacterSelector">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>20</y>
+      <width>521</width>
+      <height>811</height>
+     </rect>
+    </property>
+    <property name="widgetResizable">
+     <bool>true</bool>
+    </property>
+    <widget class="QWidget" name="scrollAreaWidgetContents">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>519</width>
+       <height>809</height>
+      </rect>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QPushButton" name="Brush_Button">
+    <property name="geometry">
+     <rect>
+      <x>580</x>
+      <y>70</y>
+      <width>101</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Brush</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="Erase_Button">
+    <property name="geometry">
+     <rect>
+      <x>700</x>
+      <y>70</y>
+      <width>101</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Erase</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="Clean_Button">
+    <property name="geometry">
+     <rect>
+      <x>820</x>
+      <y>70</y>
+      <width>101</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Clean</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="Help_Button">
+    <property name="geometry">
+     <rect>
+      <x>1230</x>
+      <y>70</y>
+      <width>41</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset theme="QIcon::ThemeIcon::HelpFaq"/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="Craft_Button">
+    <property name="geometry">
+     <rect>
+      <x>1060</x>
+      <y>70</y>
+      <width>141</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Craft</string>
     </property>
    </widget>
   </widget>
@@ -33,8 +124,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1169</width>
-     <height>21</height>
+     <width>1300</width>
+     <height>20</height>
     </rect>
    </property>
   </widget>
@@ -42,9 +133,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>canvaslabel</class>
+   <class>CanvasLabel</class>
    <extends>QLabel</extends>
-   <header location="global">canvaslabel.h</header>
+   <header>canvaslabel.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

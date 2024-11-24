@@ -67,15 +67,8 @@ void CanvasLabel::setOffset(const QPointF &offset)
  */
 void CanvasLabel::mousePressEvent(QMouseEvent *event)
 {
-    if (event->button() == Qt::LeftButton)
-    {
-        emit sendMouseEvent(MouseButton(leftButtonDown, convertToLocalPosition(event->pos()), 1));
-    }
-    else if (event->button() == Qt::RightButton)
-    {
-        emit sendMouseEvent(MouseButton(rightButtonDown, convertToLocalPosition(event->pos()), 1));
-    }
-    QLabel::mousePressEvent(event); // 保持原始事件行为
+    emit sendMouseEvent(event);
+    // QLabel::mousePressEvent(event); // 保持原始事件行为
 }
 
 /**
@@ -86,7 +79,7 @@ void CanvasLabel::mousePressEvent(QMouseEvent *event)
  */
 void CanvasLabel::mouseMoveEvent(QMouseEvent *event)
 {
-    emit sendMouseEvent(MouseButton(mouseMove, convertToLocalPosition(event->pos()), 1));
+    emit sendMouseEvent(event);
 }
 
 /**
@@ -97,14 +90,7 @@ void CanvasLabel::mouseMoveEvent(QMouseEvent *event)
  */
 void CanvasLabel::mouseReleaseEvent(QMouseEvent *event)
 {
-    if (event->button() == Qt::LeftButton)
-    {
-        emit sendMouseEvent(MouseButton(leftButtonUp, convertToLocalPosition(event->pos()), 1));
-    }
-    else if (event->button() == Qt::RightButton)
-    {
-        emit sendMouseEvent(MouseButton(rightButtonUp, convertToLocalPosition(event->pos()), 1));
-    }
+    emit sendMouseEvent(event);
 }
 
 /**

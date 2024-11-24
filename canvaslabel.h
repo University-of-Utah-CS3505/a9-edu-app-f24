@@ -37,15 +37,13 @@ protected:
 
     void mouseReleaseEvent(QMouseEvent *event) override;
 
-    void wheelEvent(QWheelEvent *event) override;
-
     void paintEvent(QPaintEvent *event) override;
 
 private:
     QPointF convertToLocalPosition(const QPointF &pos);
 
 signals:
-    void sendMouseEvent(MouseButton button);
+    void sendMouseEvent(QMouseEvent *event);
 };
 
 #endif // CANVASLABEL_H
