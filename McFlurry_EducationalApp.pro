@@ -9,13 +9,17 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    canvaslabel.cpp \
     character.cpp \
     main.cpp \
-    educationalapp.cpp
+    educationalapp.cpp \
+    mousebutton.cpp
 
 HEADERS += \
+    canvaslabel.h \
     character.h \
-    educationalapp.h
+    educationalapp.h \
+    mousebutton.h
 
 FORMS += \
     educationalapp.ui
