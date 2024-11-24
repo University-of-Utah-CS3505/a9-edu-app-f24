@@ -4,7 +4,6 @@
 #include <QPainter>
 #include <QLabel>
 #include <QObject>
-#include "mousebutton.h"
 
 /**
  * @brief The CanvasLabel class

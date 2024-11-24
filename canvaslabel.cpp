@@ -93,18 +93,6 @@ void CanvasLabel::mouseReleaseEvent(QMouseEvent *event)
     emit sendMouseEvent(event);
 }
 
-/**
- * @brief CanvasLabel::wheelEvent
- * @param event Pointer to mouse event received
- *
- *  Emits mouse event signal with middleButtonScroll button
- */
-void CanvasLabel::wheelEvent(QWheelEvent *event)
-{
-    // 获取滚动的角度
-    QPointF delta = event->angleDelta();
-    emit sendMouseEvent(MouseButton(middleButtonScroll, convertToLocalPosition(event->position()), delta.y()));
-};
 
 /**
  * @brief CanvasLabel::convertToLocalPosition

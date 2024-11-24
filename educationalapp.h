@@ -2,6 +2,8 @@
 #define EDUCATIONALAPP_H
 
 #include <QMainWindow>
+#include <QPushButton>
+#include "model.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -12,10 +14,19 @@ QT_END_NAMESPACE
 class EducationalApp : public QMainWindow
 {
     Q_OBJECT
-
+    QPushButton *lastButtonSelected;
 public:
-    EducationalApp(QWidget *parent = nullptr);
+    EducationalApp(Model &m, QWidget *parent = nullptr);
     ~EducationalApp();
+
+public slots:
+    void selectDrawBrush();
+    void selectEraseBrush();
+    void sendCleanCanvas();
+
+signals:
+    void sendIsBrushPainting(bool isPainting);
+    void clearCanvas();
 
 private:
     Ui::EducationalApp *ui;
