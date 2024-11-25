@@ -4,6 +4,7 @@
 #include <QPainter>
 #include <QLabel>
 #include <QObject>
+#include <QMouseEvent>
 
 /**
  * @brief The CanvasLabel class
@@ -21,13 +22,12 @@
 class CanvasLabel : public QLabel
 {
     Q_OBJECT
-    QPointF offset;
+    bool isMousePressed;
 
 public:
     CanvasLabel();
     explicit CanvasLabel(const QString &text, QWidget *parent = nullptr);
     explicit CanvasLabel(QWidget *parent = nullptr);
-    void setOffset(const QPointF &offset);
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;
@@ -42,7 +42,7 @@ private:
     QPointF convertToLocalPosition(const QPointF &pos);
 
 signals:
-    void sendMouseEvent(QMouseEvent *event);
+    void sendMouseEvent(QPoint pos, bool isMousePressed);
 };
 
 #endif // CANVASLABEL_H

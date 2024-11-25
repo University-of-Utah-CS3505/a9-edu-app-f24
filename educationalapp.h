@@ -23,6 +23,7 @@ public slots:
     void selectDrawBrush();
     void selectEraseBrush();
     void sendCleanCanvas();
+    void receiveImage(QImage image);
 
 signals:
     void sendIsBrushPainting(bool isPainting);

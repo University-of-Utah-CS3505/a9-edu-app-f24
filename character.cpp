@@ -1,7 +1,7 @@
 #include "character.h"
 
 Character::Character(QString character, std::string def, QObject *parent)
-    : QObject{parent}, character(character), definition(def)
+    : character(character), definition(def)
 {
     // Init the image
     image = QImage(256, 256, QImage::Format_ARGB32);
@@ -15,7 +15,7 @@ Character::Character(QString character, std::string def, QObject *parent)
     // set the font
     QFont font("Arial", 128, QFont::Bold);
     painter.setFont(font);
-    painter.setPen(Qt::black);
+    painter.setPen(QColor(128,128,128));
 
     // cal the size of the font
     QFontMetrics metrics(font);
@@ -37,4 +37,8 @@ Character::Character(QString character, std::string def, QObject *parent)
 
 void Character::exportImage(std::string path){
     image.save(QString::fromStdString(path), "PNG");
+}
+
+QImage& Character::getImage(){
+    return image;
 }

@@ -13,6 +13,14 @@ EducationalApp::EducationalApp(Model &m, QWidget *parent)
     connect(ui->Clean_Button, &QPushButton::pressed, this, &EducationalApp::sendCleanCanvas);
     connect(this, &EducationalApp::sendIsBrushPainting, &m, &Model::receiveIsBrushPainting);
     connect(this, &EducationalApp::sendCleanCanvas, &m, &Model::receiveCleanCanvas);
+
+    connect(ui->Canvas, &CanvasLabel::sendMouseEvent, &m, &Model::receiveMouseEvent);
+
+    connect(&m, &Model::sendOverlayImage, this, &EducationalApp::receiveImage);
+
+    lastButtonSelected = ui->Brush_Button;
+    ui->Brush_Button->setEnabled(false);
+    emit sendIsBrushPainting(true);
 }
 
 EducationalApp::~EducationalApp()
@@ -35,4 +43,10 @@ void EducationalApp::selectEraseBrush(){
 }
 void EducationalApp::sendCleanCanvas(){
     emit clearCanvas();
+}
+
+
+void EducationalApp::receiveImage(QImage image){
+    qDebug() << "received";
+    ui->Canvas->setPixmap(QPixmap::fromImage(image));
 }

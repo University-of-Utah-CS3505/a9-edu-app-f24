@@ -45,18 +45,7 @@ CanvasLabel::CanvasLabel(QWidget *parent) : QLabel("", parent)
 void CanvasLabel::paintEvent(QPaintEvent *event)
 {
     QPainter painter(this);
-    painter.drawPixmap(offset, this->pixmap());
-}
-
-/**
- * @brief CanvasLabel::setOffset
- * @param offset new offset in Floating point type
- *
- *  Sets offset of current canvas to be the new offsey
- */
-void CanvasLabel::setOffset(const QPointF &offset)
-{
-    this->offset = offset;
+    painter.drawPixmap(this->rect(), this->pixmap());
 }
 
 /**
@@ -67,7 +56,10 @@ void CanvasLabel::setOffset(const QPointF &offset)
  */
 void CanvasLabel::mousePressEvent(QMouseEvent *event)
 {
-    emit sendMouseEvent(event);
+    isMousePressed = true;
+    QPoint pos = event->pos();
+    pos = QPoint(pos.x() * 256 / this->width(), pos.y() * 256 / this->height());
+    emit sendMouseEvent(pos, true);
     // QLabel::mousePressEvent(event); // 保持原始事件行为
 }
 
@@ -79,7 +71,9 @@ void CanvasLabel::mousePressEvent(QMouseEvent *event)
  */
 void CanvasLabel::mouseMoveEvent(QMouseEvent *event)
 {
-    emit sendMouseEvent(event);
+    QPoint pos = event->pos();
+    pos = QPoint(pos.x() * 256 / this->width(), pos.y() * 256 / this->height());
+    emit sendMouseEvent(pos, isMousePressed);
 }
 
 /**
@@ -90,7 +84,10 @@ void CanvasLabel::mouseMoveEvent(QMouseEvent *event)
  */
 void CanvasLabel::mouseReleaseEvent(QMouseEvent *event)
 {
-    emit sendMouseEvent(event);
+    QPoint pos = event->pos();
+    pos = QPoint(pos.x() * 256 / this->width(), pos.y() * 256 / this->height());
+    isMousePressed = false;
+    emit sendMouseEvent(pos, false);
 }
 
 
