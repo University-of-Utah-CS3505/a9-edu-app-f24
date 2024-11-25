@@ -12,7 +12,7 @@ EducationalApp::EducationalApp(Model &m, QWidget *parent)
     connect(ui->Erase_Button, &QPushButton::pressed, this, &EducationalApp::selectEraseBrush);
     connect(ui->Clean_Button, &QPushButton::pressed, this, &EducationalApp::sendCleanCanvas);
     connect(this, &EducationalApp::sendIsBrushPainting, &m, &Model::receiveIsBrushPainting);
-    connect(this, &EducationalApp::sendCleanCanvas, &m, &Model::receiveCleanCanvas);
+    connect(this, &EducationalApp::sendClearCanvasSignal, &m, &Model::receiveCleanCanvas);
 
     connect(ui->Canvas, &CanvasLabel::sendMouseEvent, &m, &Model::receiveMouseEvent);
 
@@ -42,7 +42,7 @@ void EducationalApp::selectEraseBrush(){
     emit sendIsBrushPainting(false);
 }
 void EducationalApp::sendCleanCanvas(){
-    emit clearCanvas();
+    emit sendClearCanvasSignal();
 }
 
 

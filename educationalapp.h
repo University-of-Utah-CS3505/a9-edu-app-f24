@@ -27,7 +27,7 @@ public slots:
 
 signals:
     void sendIsBrushPainting(bool isPainting);
-    void clearCanvas();
+    void sendClearCanvasSignal();
 
 private:
     Ui::EducationalApp *ui;

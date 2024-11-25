@@ -5,6 +5,7 @@ Model::Model(QObject *parent)
 {
     isPainting = true;
     canvas = QImage(QSize(256,256), QImage::Format_ARGB32);
+    canvas.fill(Qt::transparent);
     characterIndex = 0;
     characterLib = QList<Character>();
     characterLib.push_back(Character(QString("我"),"me"));
@@ -16,20 +17,25 @@ void Model::receiveIsBrushPainting(bool isPainting){
 
 void Model::receiveCleanCanvas(){
     canvas.fill(Qt::transparent);
+    emit sendOverlayImage(creatOverlayImage());
 }
 
-void Model::receiveMouseEvent(QPoint pos, bool isMousePressed){
+void Model::receiveMouseEvent(QPoint pos, bool isMousePressed) {
     qDebug() << pos;
-    if(!isMousePressed) return;
+    if (!isMousePressed) return;
 
     QPainter painter(&canvas);
-    painter.setPen(Qt::NoPen);     // no border
-    if(isPainting){
-        painter.setBrush(Qt::black); // inside color
-    }else{
+
+    if (isPainting) {
+        painter.setPen(Qt::NoPen);
+        painter.setBrush(Qt::black);
+        painter.drawEllipse(pos, 5, 5);
+    } else {
+        // Use composition mode to clear (erase)
+        painter.setCompositionMode(QPainter::CompositionMode_Clear);
         painter.setBrush(Qt::transparent);
+        painter.drawEllipse(pos, 5, 5);
     }
-    painter.drawEllipse(pos, 5, 5);
 
     emit sendOverlayImage(creatOverlayImage());
 }
