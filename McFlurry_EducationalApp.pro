@@ -11,6 +11,7 @@ CONFIG += c++17
 SOURCES += \
     canvaslabel.cpp \
     character.cpp \
+    craftcharacter.cpp \
     main.cpp \
     educationalapp.cpp \
     model.cpp
@@ -18,10 +19,12 @@ SOURCES += \
 HEADERS += \
     canvaslabel.h \
     character.h \
+    craftcharacter.h \
     educationalapp.h \
     model.h
 
 FORMS += \
+    craftcharacter.ui \
     educationalapp.ui
 
 # Default rules for deployment.
