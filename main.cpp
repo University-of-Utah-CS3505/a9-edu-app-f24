@@ -6,7 +6,8 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    EducationalApp w;
+    Model m;
+    EducationalApp w(m);
     w.show();
     return a.exec();
 }

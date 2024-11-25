@@ -5,9 +5,9 @@
 #include <QImage>
 #include <QPainter>
 
-class Character : public QObject
+
+class Character
 {
-    Q_OBJECT
     QString character;
     std::string spell;
     std::string definition;
@@ -15,6 +15,7 @@ class Character : public QObject
 public:
     explicit Character(QString character, std::string def, QObject *parent = nullptr);
     void exportImage(std::string path);
+    QImage& getImage();
 
 signals:
 };

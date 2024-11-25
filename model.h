@@ -8,17 +8,23 @@
 class Model : public QObject
 {
     Q_OBJECT
-    QList<Character> frameSequence;
+    bool isPainting;
+    bool isMousePressed;
+    int characterIndex;
+    QList<Character> characterLib;
     QImage canvas;
+
+    QImage creatOverlayImage();
 public:
     explicit Model(QObject *parent = nullptr);
 
 public slots:
     void receiveIsBrushPainting(bool isPainting);
     void receiveCleanCanvas();
-    void receiveMouseEvent(QMouseEvent *event);
+    void receiveMouseEvent(QPoint pos, bool isMousePressed);
 
 signals:
+    void sendOverlayImage(QImage image);
 };
 
 #endif // MODEL_H
