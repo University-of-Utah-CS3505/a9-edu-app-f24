@@ -49,5 +49,15 @@ QImage Model::creatOverlayImage(){
     return result;
 }
 
+float Model::checkCorrectness(){
+    float correctness = 0;
+    float point = 1.0 / 65536.0;
+    for(int i = 0; i < canvas.width(); i++){
+        for(int j = 0; j < canvas.height(); j++){
+            QColor imputColor = canvas.pixel(i,j);
+            if(characterLib[characterIndex].getImage()->)
+        }
+    }
+}
 
 

@@ -15,6 +15,8 @@ class Model : public QObject
     QImage canvas;
 
     QImage creatOverlayImage();
+
+    float checkCorrectness();
 public:
     explicit Model(QObject *parent = nullptr);
 
