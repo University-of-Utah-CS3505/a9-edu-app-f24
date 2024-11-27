@@ -11,6 +11,7 @@ CONFIG += c++17
 SOURCES += \
     canvaslabel.cpp \
     character.cpp \
+    characterbutton.cpp \
     craftcharacter.cpp \
     main.cpp \
     educationalapp.cpp \
@@ -19,6 +20,7 @@ SOURCES += \
 HEADERS += \
     canvaslabel.h \
     character.h \
+    characterbutton.h \
     craftcharacter.h \
     educationalapp.h \
     model.h

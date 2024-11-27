@@ -1,6 +1,7 @@
 #include "educationalapp.h"
 #include "ui_educationalapp.h"
 #include "canvaslabel.h"
+#include "characterbutton.h"
 
 EducationalApp::EducationalApp(Model &m, QWidget *parent)
     : QMainWindow(parent)
@@ -55,6 +56,6 @@ void EducationalApp::receiveImage(QImage image){
 //BK part writing the update buttons in the UI
 void EducationalApp::receiveNewCharacter(Character newCharacter)
 {
-    QPushButton *newButton = new QPushButton(newCharacter.getString());
+    CharacterButton *newButton = new CharacterButton(newCharacter);
     characterLayout->addWidget(newButton);
 }
