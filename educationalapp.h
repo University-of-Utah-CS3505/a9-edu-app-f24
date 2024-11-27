@@ -4,7 +4,6 @@
 #include <QVBoxLayout>
 #include <QMainWindow>
 #include <QPushButton>
-#include "character.h"
 #include "model.h"
 
 QT_BEGIN_NAMESPACE
@@ -29,7 +28,7 @@ public slots:
     void updateConnotationHeader();
 
     //this is the method will get a new character from the model, then add it as a button in the UI
-    void receiveNewCharacter(Character newCharacter);
+    void receiveNewCharacterIndex(int CharacterIndex);
 
 signals:
     void sendIsBrushPainting(bool isPainting);

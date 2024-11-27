@@ -54,9 +54,9 @@ void EducationalApp::receiveImage(QImage image){
 }
 
 //BK part writing the update buttons in the UI
-void EducationalApp::receiveNewCharacter(Character newCharacter)
+void EducationalApp::receiveNewCharacterIndex(int CharacterIndex)
 {
-    CharacterButton *newButton = new CharacterButton(newCharacter);
+    CharacterButton *newButton = new CharacterButton(CharacterIndex);
     characterLayout->addWidget(newButton);
 }
 

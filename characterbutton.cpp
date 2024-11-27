@@ -1,18 +1,18 @@
 #include "characterbutton.h"
 #include "character.h"
 
-CharacterButton::CharacterButton(Character character, QWidget *parent)
-    : QPushButton{parent}, character(character)
+CharacterButton::CharacterButton(int characterIndex, QWidget *parent)
+    : QPushButton{parent}, characterIndex(characterIndex)
 {
     connect(this, &QPushButton::clicked, this, &CharacterButton::pushed);
 }
 
 void CharacterButton::pushed()
 {
-    emit sendSelfCharacter(character);
+    emit sendSelfIndex(characterIndex);
 }
 
-void CharacterButton::setCharacter(Character sendCharacter)
+void CharacterButton::setCharacterIndex(int sendCharacterIndex)
 {
-    character = sendCharacter;
+    characterIndex = sendCharacterIndex;
 }

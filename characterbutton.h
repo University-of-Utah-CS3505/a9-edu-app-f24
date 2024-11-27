@@ -7,17 +7,17 @@
 class CharacterButton : public QPushButton
 {
     Q_OBJECT
-    Character character;
+    int characterIndex;
 
 public:
-    explicit CharacterButton(Character character, QWidget *parent = nullptr);
+    explicit CharacterButton(int characterIndex, QWidget *parent = nullptr);
 
 public slots:
     void pushed();
-    void setCharacter(Character character);
+    void setCharacterIndex(int characterIndex);
 
 signals:
-    void sendSelfCharacter(Character character);
+    void sendSelfIndex(int characterIndex);
 };
 
 #endif // CHARACTERBUTTON_H
