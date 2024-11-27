@@ -52,9 +52,14 @@ void EducationalApp::receiveImage(QImage image){
     ui->Canvas->setPixmap(QPixmap::fromImage(image));
 }
 
+<<<<<<< Updated upstream
 //BK part writing the update buttons in the UI
 void EducationalApp::receiveNewCharacter(Character newCharacter)
 {
     QPushButton *newButton = new QPushButton(newCharacter.getString());
     characterLayout->addWidget(newButton);
+=======
+void EducationalApp::updateConnotationHeader(){
+    ui->Connotation_Description->setText("<b>BK喜歡玩黃遊</b>");
+>>>>>>> Stashed changes
 }
