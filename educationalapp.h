@@ -26,6 +26,7 @@ public slots:
     void selectEraseBrush();
     void sendCleanCanvas();
     void receiveImage(QImage image);
+    void updateConnotationHeader();
 
     //this is the method will get a new character from the model, then add it as a button in the UI
     void receiveNewCharacter(Character newCharacter);
