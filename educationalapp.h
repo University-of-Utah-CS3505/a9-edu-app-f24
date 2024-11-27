@@ -1,8 +1,10 @@
 #ifndef EDUCATIONALAPP_H
 #define EDUCATIONALAPP_H
 
+#include <QVBoxLayout>
 #include <QMainWindow>
 #include <QPushButton>
+#include "character.h"
 #include "model.h"
 
 QT_BEGIN_NAMESPACE
@@ -25,11 +27,15 @@ public slots:
     void sendCleanCanvas();
     void receiveImage(QImage image);
 
+    //this is the method will get a new character from the model, then add it as a button in the UI
+    void receiveNewCharacter(Character newCharacter);
+
 signals:
     void sendIsBrushPainting(bool isPainting);
     void sendClearCanvasSignal();
 
 private:
     Ui::EducationalApp *ui;
+    QVBoxLayout *characterLayout;
 };
 #endif // EDUCATIONALAPP_H

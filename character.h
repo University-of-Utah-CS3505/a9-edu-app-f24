@@ -16,6 +16,7 @@ public:
     explicit Character(QString character, std::string def, QObject *parent = nullptr);
     void exportImage(std::string path);
     QImage& getImage();
+    QString& getString();
 
 signals:
 };

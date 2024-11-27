@@ -2,7 +2,6 @@
 #include "ui_educationalapp.h"
 #include "canvaslabel.h"
 
-
 EducationalApp::EducationalApp(Model &m, QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::EducationalApp)
@@ -21,13 +20,15 @@ EducationalApp::EducationalApp(Model &m, QWidget *parent)
     lastButtonSelected = ui->Brush_Button;
     ui->Brush_Button->setEnabled(false);
     emit sendIsBrushPainting(true);
+
+    //character layout setup
+    characterLayout = new QVBoxLayout(ui->scrollAreaWidgetContents);
 }
 
 EducationalApp::~EducationalApp()
 {
     delete ui;
 }
-
 
 void EducationalApp::selectDrawBrush(){
     lastButtonSelected->setEnabled(true);
@@ -49,4 +50,11 @@ void EducationalApp::sendCleanCanvas(){
 void EducationalApp::receiveImage(QImage image){
     qDebug() << "received";
     ui->Canvas->setPixmap(QPixmap::fromImage(image));
+}
+
+//BK part writing the update buttons in the UI
+void EducationalApp::receiveNewCharacter(Character newCharacter)
+{
+    QPushButton *newButton = new QPushButton(newCharacter.getString());
+    characterLayout->addWidget(newButton);
 }

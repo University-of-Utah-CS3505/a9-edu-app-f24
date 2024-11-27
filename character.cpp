@@ -42,3 +42,7 @@ void Character::exportImage(std::string path){
 QImage& Character::getImage(){
     return image;
 }
+
+QString& Character::getString(){
+    return character;
+}
