@@ -21,7 +21,6 @@ void Model::receiveCleanCanvas(){
 }
 
 void Model::receiveMouseEvent(QPoint pos, bool isMousePressed) {
-    qDebug() << pos;
     if (!isMousePressed) return;
 
     QPainter painter(&canvas);
@@ -38,6 +37,7 @@ void Model::receiveMouseEvent(QPoint pos, bool isMousePressed) {
     }
 
     emit sendOverlayImage(creatOverlayImage());
+    qDebug() << "correctness" << checkCorrectness();
 }
 
 QImage Model::creatOverlayImage(){
@@ -50,15 +50,21 @@ QImage Model::creatOverlayImage(){
 }
 
 float Model::checkCorrectness(){
-    //float correctness = 0;
-    //float point = 1.0 / 65536.0;
-    //for(int i = 0; i < canvas.width(); i++){
-    //   for(int j = 0; j < canvas.height(); j++){
-    //        QColor imputColor = canvas.pixel(i,j);
-    //        if(characterLib[characterIndex].getImage()->)
-    //    }
-    //}
-    return 0;
+    float correctness = 0;
+    float point = 1.0 / 65536.0;
+    //QImage img = QImage(256,256, QImage::Format_ARGB32);
+    for(int i = 0; i < canvas.width(); i++){
+        for(int j = 0; j < canvas.height(); j++){
+            int inputVal = canvas.pixelColor(i,j).alpha() == 0 ? 255 : 0; // if it is transprant, set it to white, else black
+            int targetVal = characterLib[characterIndex].getImage().pixelColor(i,j).red() < 200 ? 0 : 255;
+            //img.setPixelColor(i,j,QColor(inputVal,0,targetVal));
+            if(inputVal == targetVal){
+                correctness += point;
+            }
+        }
+    }
+    //emit sendOverlayImage(img);
+    return correctness;
 }
 
 
