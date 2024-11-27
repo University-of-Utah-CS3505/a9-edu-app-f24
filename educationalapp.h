@@ -16,6 +16,8 @@ class EducationalApp : public QMainWindow
 {
     Q_OBJECT
     QPushButton *lastButtonSelected;
+    QWidget *frameOverviewContainer;
+    QVBoxLayout * characterLayout;
 public:
     EducationalApp(Model &m, QWidget *parent = nullptr);
     ~EducationalApp();
@@ -28,14 +30,16 @@ public slots:
     void updateConnotationHeader();
 
     //this is the method will get a new character from the model, then add it as a button in the UI
-    void receiveNewCharacterIndex(int CharacterIndex);
+    void receiveNewCharacter(Character& character, int CharacterIndex);
+    void receiveCharacterIndex(int index);
+    void receiveCharacter(Character& character);
 
 signals:
     void sendIsBrushPainting(bool isPainting);
     void sendClearCanvasSignal();
+    void sendGetCharacterRequest(int requestCharacterIndex);
 
 private:
     Ui::EducationalApp *ui;
-    QVBoxLayout *characterLayout;
 };
 #endif // EDUCATIONALAPP_H

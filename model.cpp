@@ -9,6 +9,8 @@ Model::Model(QObject *parent)
     characterIndex = 0;
     characterLib = QList<Character>();
     characterLib.push_back(Character(QString("我"),"me"));
+    QTimer::singleShot(1000,[=]{emit sendNewCharacter(characterLib[0], 0);});
+
 }
 
 void Model::receiveIsBrushPainting(bool isPainting){
@@ -67,4 +69,7 @@ float Model::checkCorrectness(){
     return correctness;
 }
 
+void Model::receiveGetCharacterRequest(int index){
+    emit sendRequestedCharacter(characterLib[index]);
+}
 

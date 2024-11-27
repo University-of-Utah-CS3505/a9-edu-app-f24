@@ -4,6 +4,7 @@
 #include <QObject>
 #include "character.h"
 #include "QMouseEvent"
+#include "QTimer"
 
 class Model : public QObject
 {
@@ -24,9 +25,12 @@ public slots:
     void receiveIsBrushPainting(bool isPainting);
     void receiveCleanCanvas();
     void receiveMouseEvent(QPoint pos, bool isMousePressed);
+    void receiveGetCharacterRequest(int index);
 
 signals:
     void sendOverlayImage(QImage image);
+    void sendNewCharacter(Character& character, int index);
+    void sendRequestedCharacter(Character& character);
 };
 
 #endif // MODEL_H

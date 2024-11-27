@@ -13,17 +13,34 @@ EducationalApp::EducationalApp(Model &m, QWidget *parent)
     connect(ui->Clean_Button, &QPushButton::pressed, this, &EducationalApp::sendCleanCanvas);
     connect(this, &EducationalApp::sendIsBrushPainting, &m, &Model::receiveIsBrushPainting);
     connect(this, &EducationalApp::sendClearCanvasSignal, &m, &Model::receiveCleanCanvas);
+    connect(this, &EducationalApp::sendGetCharacterRequest, &m, &Model::receiveGetCharacterRequest);
 
     connect(ui->Canvas, &CanvasLabel::sendMouseEvent, &m, &Model::receiveMouseEvent);
 
     connect(&m, &Model::sendOverlayImage, this, &EducationalApp::receiveImage);
+    connect(&m, &Model::sendNewCharacter, this, &EducationalApp::receiveNewCharacter);
+    connect(&m, &Model::sendRequestedCharacter, this, &EducationalApp::receiveCharacter);
+
 
     lastButtonSelected = ui->Brush_Button;
     ui->Brush_Button->setEnabled(false);
     emit sendIsBrushPainting(true);
 
-    //character layout setup
-    characterLayout = new QVBoxLayout(ui->scrollAreaWidgetContents);
+
+    // setup the scroll area
+    frameOverviewContainer = new QWidget;
+    characterLayout = new QVBoxLayout(frameOverviewContainer);
+    characterLayout->setAlignment(Qt::AlignTop);
+    characterLayout->setContentsMargins(0, 0, 0, 0);
+    characterLayout->setSpacing(10); // set button spacing
+    frameOverviewContainer->setLayout(characterLayout);
+
+    // 设置滚动区域
+    ui->CharacterSelector->setWidgetResizable(true);
+    ui->CharacterSelector->setWidget(frameOverviewContainer);
+    ui->CharacterSelector->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    ui->CharacterSelector->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+
 }
 
 EducationalApp::~EducationalApp()
@@ -53,13 +70,34 @@ void EducationalApp::receiveImage(QImage image){
     ui->Canvas->setPixmap(QPixmap::fromImage(image));
 }
 
-//BK part writing the update buttons in the UI
-void EducationalApp::receiveNewCharacterIndex(int CharacterIndex)
+
+
+void EducationalApp::receiveNewCharacter(Character& character, int CharacterIndex)
 {
-    CharacterButton *newButton = new CharacterButton(CharacterIndex);
-    characterLayout->addWidget(newButton);
+    qDebug() << "received";
+
+    CharacterButton *button = new CharacterButton(CharacterIndex);
+    button->setFixedSize(75, 75);
+    button->setIconSize(QSize(70, 70));
+    button->setIcon(QPixmap::fromImage(character.getImage()));
+
+    connect(button, &CharacterButton::sendSelfIndex, this, &EducationalApp::receiveCharacterIndex);
+
+    characterLayout->addWidget(button);
+
+    frameOverviewContainer->adjustSize(); // adjust button to center
 }
+
 
 void EducationalApp::updateConnotationHeader(){
     ui->Connotation_Description->setText("<b>BK喜歡玩黃遊</b>");
 }
+
+void EducationalApp::receiveCharacterIndex(int index){
+
+}
+
+void EducationalApp::receiveCharacter(Character& character){
+
+}
+
