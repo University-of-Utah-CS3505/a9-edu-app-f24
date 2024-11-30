@@ -1,7 +1,7 @@
 #include "character.h"
 
-Character::Character(QString character, std::string def, QObject *parent)
-    : character(character), definition(def)
+Character::Character(QString character, QString spell, QString def, QObject *parent)
+    : character(character), spell(spell), definition(def)
 {
     // Init the image
     image = QImage(256, 256, QImage::Format_ARGB32);
@@ -43,6 +43,14 @@ QImage& Character::getImage(){
     return image;
 }
 
-QString& Character::getString(){
+QString& Character::getCharacter(){
     return character;
+}
+
+QString& Character::getDef(){
+    return definition;
+}
+
+QString& Character::getSpell(){
+    return spell;
 }

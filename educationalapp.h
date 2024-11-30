@@ -31,7 +31,7 @@ public slots:
 
     //this is the method will get a new character from the model, then add it as a button in the UI
     void receiveNewCharacter(Character& character, int CharacterIndex);
-    void receiveCharacterIndex(int index);
+    void receiveCharacterButtonIndex(int index);
     void receiveCharacter(Character& character);
 
 signals:

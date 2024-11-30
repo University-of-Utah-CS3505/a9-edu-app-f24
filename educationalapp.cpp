@@ -81,7 +81,7 @@ void EducationalApp::receiveNewCharacter(Character& character, int CharacterInde
     button->setIconSize(QSize(70, 70));
     button->setIcon(QPixmap::fromImage(character.getImage()));
 
-    connect(button, &CharacterButton::sendSelfIndex, this, &EducationalApp::receiveCharacterIndex);
+    connect(button, &CharacterButton::sendSelfIndex, this, &EducationalApp::receiveCharacterButtonIndex);
 
     characterLayout->addWidget(button);
 
@@ -93,11 +93,13 @@ void EducationalApp::updateConnotationHeader(){
     ui->Connotation_Description->setText("<b>BK喜歡玩黃遊</b>");
 }
 
-void EducationalApp::receiveCharacterIndex(int index){
-
+void EducationalApp::receiveCharacterButtonIndex(int index){
+    emit sendGetCharacterRequest(index);
 }
 
 void EducationalApp::receiveCharacter(Character& character){
-
+    ui->Connotation_Description->setText(character.getDef());
+    ui->Pronounce_Description->setText(character.getSpell());
+    ui->Canvas->setPixmap(QPixmap::fromImage(character.getImage()));
 }
 

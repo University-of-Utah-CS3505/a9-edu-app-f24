@@ -8,7 +8,7 @@ Model::Model(QObject *parent)
     canvas.fill(Qt::transparent);
     characterIndex = 0;
     characterLib = QList<Character>();
-    characterLib.push_back(Character(QString("我"),"me"));
+    characterLib.push_back(Character(QString("我"), QString("wo2"), QString("me")));
     QTimer::singleShot(1000,[=]{emit sendNewCharacter(characterLib[0], 0);});
 
 }

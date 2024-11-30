@@ -9,14 +9,16 @@
 class Character
 {
     QString character;
-    std::string spell;
-    std::string definition;
+    QString spell;
+    QString definition;
     QImage image;
 public:
-    explicit Character(QString character, std::string def, QObject *parent = nullptr);
+    explicit Character(QString character, QString spell, QString def, QObject *parent = nullptr);
     void exportImage(std::string path);
     QImage& getImage();
-    QString& getString();
+    QString& getCharacter();
+    QString& getDef();
+    QString& getSpell();
 
 signals:
 };
