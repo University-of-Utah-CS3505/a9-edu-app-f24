@@ -5,6 +5,7 @@
 #include <QMainWindow>
 #include <QPushButton>
 #include "model.h"
+#include "craftcharacter.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -18,6 +19,7 @@ class EducationalApp : public QMainWindow
     QPushButton *lastButtonSelected;
     QWidget *characterOverviewContainer;
     QVBoxLayout * characterLayout;
+    craftCharacter craftCharacter;
 public:
     EducationalApp(Model &m, QWidget *parent = nullptr);
     ~EducationalApp();
@@ -33,6 +35,9 @@ public slots:
     void receiveNewCharacter(Character& character, int CharacterIndex);
     void receiveCharacterButtonIndex(int index);
     void receiveCharacter(Character& character);
+
+    //this will show the craft window to create new character
+    void popupCraftTable();
 
 signals:
     void sendIsBrushPainting(bool isPainting);

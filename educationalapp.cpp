@@ -8,6 +8,7 @@ EducationalApp::EducationalApp(Model &m, QWidget *parent)
     , ui(new Ui::EducationalApp)
 {
     ui->setupUi(this);
+    //this is for drawing part
     connect(ui->Brush_Button, &QPushButton::pressed, this, &EducationalApp::selectDrawBrush);
     connect(ui->Erase_Button, &QPushButton::pressed, this, &EducationalApp::selectEraseBrush);
     connect(ui->Clean_Button, &QPushButton::pressed, this, &EducationalApp::sendCleanCanvas);
@@ -21,11 +22,17 @@ EducationalApp::EducationalApp(Model &m, QWidget *parent)
     connect(&m, &Model::sendNewCharacter, this, &EducationalApp::receiveNewCharacter);
     connect(&m, &Model::sendRequestedCharacter, this, &EducationalApp::receiveCharacter);
 
+    //press the craft button,the level will show up
+    connect(ui->Craft_Button, &QPushButton::pressed, this, &EducationalApp::popupCraftTable);
+
+    //this part will be the crafttable, which will connect to the model data set
+    connect(&m, &Model::sendNewCharacter, &(this->craftCharacter), &craftCharacter::receiveNewCharacter);
+    connect(&m, &Model::sendRequestedCharacter, &(this->craftCharacter), &craftCharacter::receiveCharacter);
+    connect(&(this->craftCharacter), &craftCharacter::sendGetCharacterRequest, &m, &Model::receiveGetCharacterRequest);
 
     lastButtonSelected = ui->Brush_Button;
     ui->Brush_Button->setEnabled(false);
     emit sendIsBrushPainting(true);
-
 
     // setup the scroll area
     characterOverviewContainer = new QWidget;
@@ -66,7 +73,6 @@ void EducationalApp::sendCleanCanvas(){
 
 
 void EducationalApp::receiveImage(QImage image){
-    qDebug() << "received";
     ui->Canvas->setPixmap(QPixmap::fromImage(image));
 }
 
@@ -88,7 +94,6 @@ void EducationalApp::receiveNewCharacter(Character& character, int CharacterInde
     characterOverviewContainer->adjustSize(); // adjust button to center
 }
 
-
 void EducationalApp::updateConnotationHeader(){
     ui->Connotation_Description->setText("<b>BK喜歡玩黃遊</b>");
 }
@@ -103,3 +108,6 @@ void EducationalApp::receiveCharacter(Character& character){
     ui->Canvas->setPixmap(QPixmap::fromImage(character.getImage()));
 }
 
+void EducationalApp::popupCraftTable(){
+    craftCharacter.show();
+}

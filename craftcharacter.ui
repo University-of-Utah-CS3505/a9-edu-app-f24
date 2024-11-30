@@ -93,10 +93,10 @@ QPushButton:pressed {
    <widget class="QScrollArea" name="CharacterSelector">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>20</y>
-      <width>291</width>
-      <height>811</height>
+      <x>10</x>
+      <y>10</y>
+      <width>201</width>
+      <height>731</height>
      </rect>
     </property>
     <property name="widgetResizable">
@@ -107,8 +107,8 @@ QPushButton:pressed {
       <rect>
        <x>0</x>
        <y>0</y>
-       <width>289</width>
-       <height>809</height>
+       <width>199</width>
+       <height>729</height>
       </rect>
      </property>
     </widget>
@@ -120,7 +120,7 @@ QPushButton:pressed {
      <x>0</x>
      <y>0</y>
      <width>1280</width>
-     <height>24</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>
