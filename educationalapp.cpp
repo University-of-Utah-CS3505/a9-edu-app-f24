@@ -28,16 +28,16 @@ EducationalApp::EducationalApp(Model &m, QWidget *parent)
 
 
     // setup the scroll area
-    frameOverviewContainer = new QWidget;
-    characterLayout = new QVBoxLayout(frameOverviewContainer);
+    characterOverviewContainer = new QWidget;
+    characterLayout = new QVBoxLayout(characterOverviewContainer);
     characterLayout->setAlignment(Qt::AlignTop);
     characterLayout->setContentsMargins(0, 0, 0, 0);
     characterLayout->setSpacing(10); // set button spacing
-    frameOverviewContainer->setLayout(characterLayout);
+    characterOverviewContainer->setLayout(characterLayout);
 
     // 设置滚动区域
     ui->CharacterSelector->setWidgetResizable(true);
-    ui->CharacterSelector->setWidget(frameOverviewContainer);
+    ui->CharacterSelector->setWidget(characterOverviewContainer);
     ui->CharacterSelector->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->CharacterSelector->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 
@@ -85,7 +85,7 @@ void EducationalApp::receiveNewCharacter(Character& character, int CharacterInde
 
     characterLayout->addWidget(button);
 
-    frameOverviewContainer->adjustSize(); // adjust button to center
+    characterOverviewContainer->adjustSize(); // adjust button to center
 }
 
 

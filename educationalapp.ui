@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1300</width>
+    <width>1000</width>
     <height>900</height>
    </rect>
   </property>
@@ -17,7 +17,7 @@
    <widget class="CanvasLabel" name="Canvas">
     <property name="geometry">
      <rect>
-      <x>580</x>
+      <x>200</x>
       <y>220</y>
       <width>700</width>
       <height>631</height>
@@ -53,7 +53,7 @@
    <widget class="QPushButton" name="Brush_Button">
     <property name="geometry">
      <rect>
-      <x>670</x>
+      <x>290</x>
       <y>0</y>
       <width>101</width>
       <height>41</height>
@@ -66,7 +66,7 @@
    <widget class="QPushButton" name="Erase_Button">
     <property name="geometry">
      <rect>
-      <x>770</x>
+      <x>390</x>
       <y>0</y>
       <width>101</width>
       <height>41</height>
@@ -79,7 +79,7 @@
    <widget class="QPushButton" name="Clean_Button">
     <property name="geometry">
      <rect>
-      <x>870</x>
+      <x>490</x>
       <y>0</y>
       <width>101</width>
       <height>41</height>
@@ -92,7 +92,7 @@
    <widget class="QPushButton" name="Help_Button">
     <property name="geometry">
      <rect>
-      <x>1110</x>
+      <x>730</x>
       <y>0</y>
       <width>41</width>
       <height>41</height>
@@ -108,7 +108,7 @@
    <widget class="QPushButton" name="Craft_Button">
     <property name="geometry">
      <rect>
-      <x>970</x>
+      <x>590</x>
       <y>0</y>
       <width>141</width>
       <height>41</height>
@@ -121,7 +121,7 @@
    <widget class="QTextBrowser" name="Connotation_Header">
     <property name="geometry">
      <rect>
-      <x>550</x>
+      <x>170</x>
       <y>70</y>
       <width>191</width>
       <height>41</height>
@@ -141,7 +141,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
    <widget class="QTextBrowser" name="Connotation_Description">
     <property name="geometry">
      <rect>
-      <x>550</x>
+      <x>170</x>
       <y>110</y>
       <width>741</width>
       <height>101</height>
@@ -151,7 +151,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
    <widget class="QTextBrowser" name="Pronounce_Header">
     <property name="geometry">
      <rect>
-      <x>880</x>
+      <x>500</x>
       <y>70</y>
       <width>191</width>
       <height>41</height>
@@ -171,7 +171,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
    <widget class="QTextBrowser" name="Pronounce_Description">
     <property name="geometry">
      <rect>
-      <x>1010</x>
+      <x>630</x>
       <y>70</y>
       <width>191</width>
       <height>41</height>
@@ -195,8 +195,8 @@ li.checked::marker { content: &quot;\2612&quot;; }
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1300</width>
-     <height>20</height>
+     <width>1000</width>
+     <height>24</height>
     </rect>
    </property>
   </widget>

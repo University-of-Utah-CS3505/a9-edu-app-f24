@@ -16,7 +16,7 @@ class EducationalApp : public QMainWindow
 {
     Q_OBJECT
     QPushButton *lastButtonSelected;
-    QWidget *frameOverviewContainer;
+    QWidget *characterOverviewContainer;
     QVBoxLayout * characterLayout;
 public:
     EducationalApp(Model &m, QWidget *parent = nullptr);
