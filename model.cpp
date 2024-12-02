@@ -193,6 +193,8 @@ void Model::receiveAPIKey(std::string apiKey){
 void Model::initiallizeCharacterLib(){
     characterLib.clear();
     characterLib.push_back(Character(QString("火"), QString("huo3"), QString("flame, fire")));
+    characterLib.push_back(Character(QString("一"), QString("yi1"), QString("number one")));
+    characterLib.push_back(Character(QString("子"), QString("zi3"), QString("son, offspring")));
     characterLib.push_back(Character(QString("日"), QString("ri4"), QString("sun")));
     characterLib.push_back(Character(QString("月"), QString("yue4"), QString("moon")));
     characterLib.push_back(Character(QString("木"), QString("mu4"), QString("wood, tree")));

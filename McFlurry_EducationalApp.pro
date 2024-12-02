@@ -61,6 +61,7 @@ SOURCES += \
     character.cpp \
     characterbutton.cpp \
     craftcharacter.cpp \
+    hint.cpp \
     main.cpp \
     educationalapp.cpp \
     model.cpp
@@ -118,11 +119,13 @@ HEADERS += \
     characterbutton.h \
     craftcharacter.h \
     educationalapp.h \
+    hint.h \
     model.h
 
 FORMS += \
     craftcharacter.ui \
-    educationalapp.ui
+    educationalapp.ui \
+    hint.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
