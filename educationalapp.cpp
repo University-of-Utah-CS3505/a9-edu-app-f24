@@ -29,10 +29,14 @@ EducationalApp::EducationalApp(Model &m, QWidget *parent)
     connect(&m, &Model::sendNewCharacter, &(this->craftCharacter), &craftCharacter::receiveNewCharacter);
     connect(&m, &Model::sendRequestedCharacter, &(this->craftCharacter), &craftCharacter::receiveCharacter);
     connect(&(this->craftCharacter), &craftCharacter::sendGetCharacterRequest, &m, &Model::receiveGetCharacterRequest);
+    connect(&(this->craftCharacter), &craftCharacter::sendCraftCharacterRequest, &m, &Model::receiveCraftCharacterRequest);
 
     lastButtonSelected = ui->Brush_Button;
     ui->Brush_Button->setEnabled(false);
     emit sendIsBrushPainting(true);
+
+    // API key
+    connect(&(this->craftCharacter), &craftCharacter::sendAPIKey, &m, &Model::receiveAPIKey);
 
     // setup the scroll area
     characterOverviewContainer = new QWidget;
@@ -41,12 +45,12 @@ EducationalApp::EducationalApp(Model &m, QWidget *parent)
     characterLayout->setContentsMargins(0, 0, 0, 0);
     characterLayout->setSpacing(10); // set button spacing
     characterOverviewContainer->setLayout(characterLayout);
-
-    // 设置滚动区域
     ui->CharacterSelector->setWidgetResizable(true);
     ui->CharacterSelector->setWidget(characterOverviewContainer);
     ui->CharacterSelector->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->CharacterSelector->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+
+
 
 }
 

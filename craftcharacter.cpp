@@ -23,6 +23,14 @@ craftCharacter::craftCharacter(QWidget *parent)
     ui->CharacterSelector->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->CharacterSelector->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 
+    //connect api part
+    connect(this->ui->apiKey, &QTextEdit::textChanged, this, &craftCharacter::apiKeyChanged);
+
+    connect(this->ui->craftButton, &QPushButton::pressed, this, &craftCharacter::startCraftCharacter);
+
+    //DEBUG, PLEASE DELETE IT!!!!!!!
+    selectedCharacters.push_back("火");
+    selectedCharacters.push_back("火");
 }
 
 craftCharacter::~craftCharacter()
@@ -53,4 +61,12 @@ void craftCharacter::receiveCharacter(Character& character){
     // for box 2d, this is the slot, when model send the user clicked radical,
     // the box 2d will drop a box with this character in the box
     qDebug() << "craft received";
+}
+
+void craftCharacter::apiKeyChanged(){
+    emit sendAPIKey(this->ui->apiKey->toPlainText().toStdString());
+}
+
+void craftCharacter::startCraftCharacter(){
+    emit sendCraftCharacterRequest(selectedCharacters);
 }
