@@ -26,6 +26,8 @@ class Model : public QObject
     QImage creatOverlayImage();
 
     float checkCorrectness();
+
+    void initiallizeCharacterLib();
 public:
     explicit Model(QObject *parent = nullptr);
 

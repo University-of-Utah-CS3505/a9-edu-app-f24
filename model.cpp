@@ -9,8 +9,12 @@ Model::Model(QObject *parent)
     canvas.fill(Qt::transparent);
     characterIndex = 0;
     characterLib = QList<Character>();
-    characterLib.push_back(Character(QString("我"), QString("wo2"), QString("me")));
-    QTimer::singleShot(1000,[=]{emit sendNewCharacter(characterLib[0], 0);});
+    initiallizeCharacterLib();
+
+    QTimer::singleShot(1000,[=]{
+        for(int i = 0; i < characterLib.size(); i++)
+        emit sendNewCharacter(characterLib[i], i);
+    });
     jsonEX = R"({\"exists\": true, \"character\": \"炎", \"spell\": \"ya2n" , \"english\": \"really hot, since there are two fire in same place\"})";
 
 }
@@ -168,7 +172,7 @@ void Model::receiveCraftCharacterRequest(QList<std::string>& selectedCharacters)
                 }
             }
 
-            emit sendCraftResult(true);
+            emit sendCraftResult(found);
             if(found){
                 Character newCharacter(outputChar, spell, english);
                 characterLib.push_back(newCharacter);
@@ -184,4 +188,29 @@ void Model::receiveCraftCharacterRequest(QList<std::string>& selectedCharacters)
 
 void Model::receiveAPIKey(std::string apiKey){
     this->apiKey = apiKey;
+}
+
+void Model::initiallizeCharacterLib(){
+    characterLib.clear();
+    characterLib.push_back(Character(QString("火"), QString("huo3"), QString("flame, fire")));
+    characterLib.push_back(Character(QString("日"), QString("ri4"), QString("sun")));
+    characterLib.push_back(Character(QString("月"), QString("yue4"), QString("moon")));
+    characterLib.push_back(Character(QString("木"), QString("mu4"), QString("wood, tree")));
+    characterLib.push_back(Character(QString("山"), QString("shan1"), QString("mountain")));
+    characterLib.push_back(Character(QString("川"), QString("chuan1"), QString("river")));
+    characterLib.push_back(Character(QString("田"), QString("tian2"), QString("field")));
+    characterLib.push_back(Character(QString("力"), QString("li4"), QString("strength")));
+    characterLib.push_back(Character(QString("口"), QString("kou3"), QString("mouth")));
+    characterLib.push_back(Character(QString("大"), QString("da4"), QString("big")));
+    characterLib.push_back(Character(QString("天"), QString("tian1"), QString("sky, heaven")));
+    characterLib.push_back(Character(QString("水"), QString("shui3"), QString("water")));
+    characterLib.push_back(Character(QString("冰"), QString("bing1"), QString("ice")));
+    characterLib.push_back(Character(QString("人"), QString("ren2"), QString("person, human")));
+    characterLib.push_back(Character(QString("女"), QString("nv3"), QString("woman, female")));
+    characterLib.push_back(Character(QString("土"), QString("tu3"), QString("earth, soil")));
+    characterLib.push_back(Character(QString("石"), QString("shi2"), QString("stone")));
+    characterLib.push_back(Character(QString("金"), QString("jin1"), QString("metal, gold")));
+    characterLib.push_back(Character(QString("雨"), QString("yu3"), QString("rain")));
+    characterLib.push_back(Character(QString("禾"), QString("he2"), QString("grain, crop")));
+    characterLib.push_back(Character(QString("竹"), QString("zhu2"), QString("bamboo")));
 }
