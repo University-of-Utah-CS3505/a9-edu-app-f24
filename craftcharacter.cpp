@@ -45,6 +45,8 @@ void craftCharacter::receiveNewCharacter(Character& character, int CharacterInde
     button->setFixedSize(75, 75);
     button->setIconSize(QSize(70, 70));
     button->setIcon(QPixmap::fromImage(character.getImage()));
+    ui->chracterLabel->setPixmap(QPixmap::fromImage(character.getImage()));
+    ui->defLabel->setText(character.getDef());
 
     connect(button, &CharacterButton::sendSelfIndex, this, &craftCharacter::receiveCharacterButtonIndex);
 

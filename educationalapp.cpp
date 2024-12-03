@@ -33,6 +33,7 @@ EducationalApp::EducationalApp(Model &m, QWidget *parent)
     connect(&(this->craftCharacter), &craftCharacter::sendGetCharacterRequest, &m, &Model::receiveGetCharacterRequest);
     connect(&(this->craftCharacter), &craftCharacter::sendCraftCharacterRequest, &m, &Model::receiveCraftCharacterRequest);
 
+
     lastButtonSelected = ui->Brush_Button;
     ui->Brush_Button->setEnabled(false);
     emit sendIsBrushPainting(true);
