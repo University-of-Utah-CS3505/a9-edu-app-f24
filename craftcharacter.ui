@@ -135,6 +135,9 @@ QPushButton:pressed {
     <property name="text">
      <string>API key</string>
     </property>
+    <property name="textFormat">
+     <enum>Qt::TextFormat::AutoText</enum>
+    </property>
    </widget>
    <widget class="QPushButton" name="hintButton">
     <property name="geometry">
@@ -156,7 +159,7 @@ QPushButton:pressed {
      <x>0</x>
      <y>0</y>
      <width>1280</width>
-     <height>24</height>
+     <height>20</height>
     </rect>
    </property>
   </widget>

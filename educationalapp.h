@@ -39,10 +39,13 @@ public slots:
     //this will show the craft window to create new character
     void popupCraftTable();
 
+    void receiveCorrectness(int correctness);
+
 signals:
     void sendIsBrushPainting(bool isPainting);
     void sendClearCanvasSignal();
     void sendGetCharacterRequest(int requestCharacterIndex);
+    void sendSelectNewCharactersIndex(int index);
 
 private:
     Ui::EducationalApp *ui;

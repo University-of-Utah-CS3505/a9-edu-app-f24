@@ -36,16 +36,16 @@ void Model::receiveMouseEvent(QPoint pos, bool isMousePressed) {
     if (isPainting) {
         painter.setPen(Qt::NoPen);
         painter.setBrush(Qt::black);
-        painter.drawEllipse(pos, 5, 5);
+        painter.drawEllipse(pos, 7, 7);
     } else {
         // Use composition mode to clear (erase)
         painter.setCompositionMode(QPainter::CompositionMode_Clear);
         painter.setBrush(Qt::transparent);
-        painter.drawEllipse(pos, 5, 5);
+        painter.drawEllipse(pos, 7, 7);
     }
 
     emit sendOverlayImage(creatOverlayImage());
-    qDebug() << "correctness" << checkCorrectness();
+    emit sendCorrectness(int(checkCorrectness() * 100));
 }
 
 QImage Model::creatOverlayImage(){
@@ -59,19 +59,22 @@ QImage Model::creatOverlayImage(){
 
 float Model::checkCorrectness(){
     float correctness = 0;
-    float point = 1.0 / 65536.0;
+    float point = 1.0 / characterLib[characterIndex].getBlackPixelCount() * 1.1;
+
     //QImage img = QImage(256,256, QImage::Format_ARGB32);
     for(int i = 0; i < canvas.width(); i++){
         for(int j = 0; j < canvas.height(); j++){
             int inputVal = canvas.pixelColor(i,j).alpha() == 0 ? 255 : 0; // if it is transprant, set it to white, else black
             int targetVal = characterLib[characterIndex].getImage().pixelColor(i,j).red() < 200 ? 0 : 255;
-            //img.setPixelColor(i,j,QColor(inputVal,0,targetVal));
-            if(inputVal == targetVal){
-                correctness += point;
+            if(inputVal == 0){
+                if(targetVal == 0){
+                    correctness += point;
+                }else{
+                    correctness -= point / 2.0;
+                }
             }
         }
     }
-    //emit sendOverlayImage(img);
     return correctness;
 }
 
@@ -188,6 +191,15 @@ void Model::receiveCraftCharacterRequest(QList<std::string>& selectedCharacters)
 
 void Model::receiveAPIKey(std::string apiKey){
     this->apiKey = apiKey;
+}
+
+void Model::receiveSelectedCharactersIndex(int index){
+    if(this->characterIndex != index){
+        this->characterIndex = index;
+        this->canvas.fill(Qt::transparent);
+    }
+
+
 }
 
 void Model::initiallizeCharacterLib(){

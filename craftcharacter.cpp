@@ -69,4 +69,6 @@ void craftCharacter::apiKeyChanged(){
 
 void craftCharacter::startCraftCharacter(){
     emit sendCraftCharacterRequest(selectedCharacters);
+    selectedCharacters.clear();
+    //TODO update the box2d about characters
 }

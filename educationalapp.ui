@@ -189,6 +189,37 @@ li.checked::marker { content: &quot;\2612&quot;; }
 &lt;p align=&quot;center&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Microsoft JhengHei UI';&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
+   <widget class="QProgressBar" name="correctness">
+    <property name="geometry">
+     <rect>
+      <x>970</x>
+      <y>10</y>
+      <width>21</width>
+      <height>841</height>
+     </rect>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::LayoutDirection::LeftToRight</enum>
+    </property>
+    <property name="value">
+     <number>24</number>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+    </property>
+    <property name="textVisible">
+     <bool>false</bool>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Orientation::Vertical</enum>
+    </property>
+    <property name="invertedAppearance">
+     <bool>false</bool>
+    </property>
+    <property name="textDirection">
+     <enum>QProgressBar::Direction::TopToBottom</enum>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -196,7 +227,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
      <x>0</x>
      <y>0</y>
      <width>1000</width>
-     <height>21</height>
+     <height>20</height>
     </rect>
    </property>
   </widget>

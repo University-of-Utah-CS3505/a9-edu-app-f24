@@ -15,13 +15,15 @@ EducationalApp::EducationalApp(Model &m, QWidget *parent)
     connect(this, &EducationalApp::sendIsBrushPainting, &m, &Model::receiveIsBrushPainting);
     connect(this, &EducationalApp::sendClearCanvasSignal, &m, &Model::receiveCleanCanvas);
     connect(this, &EducationalApp::sendGetCharacterRequest, &m, &Model::receiveGetCharacterRequest);
+    connect(this, &EducationalApp::sendSelectNewCharactersIndex, &m, &Model::receiveSelectedCharactersIndex);
+
 
     connect(ui->Canvas, &CanvasLabel::sendMouseEvent, &m, &Model::receiveMouseEvent);
 
     connect(&m, &Model::sendOverlayImage, this, &EducationalApp::receiveImage);
     connect(&m, &Model::sendNewCharacter, this, &EducationalApp::receiveNewCharacter);
     connect(&m, &Model::sendRequestedCharacter, this, &EducationalApp::receiveCharacter);
-
+    connect(&m, &Model::sendCorrectness, this, &EducationalApp::receiveCorrectness);
     //press the craft button,the level will show up
     connect(ui->Craft_Button, &QPushButton::pressed, this, &EducationalApp::popupCraftTable);
 
@@ -34,6 +36,7 @@ EducationalApp::EducationalApp(Model &m, QWidget *parent)
     lastButtonSelected = ui->Brush_Button;
     ui->Brush_Button->setEnabled(false);
     emit sendIsBrushPainting(true);
+
 
     // API key
     connect(&(this->craftCharacter), &craftCharacter::sendAPIKey, &m, &Model::receiveAPIKey);
@@ -104,6 +107,7 @@ void EducationalApp::updateConnotationHeader(){
 
 void EducationalApp::receiveCharacterButtonIndex(int index){
     emit sendGetCharacterRequest(index);
+    emit sendSelectNewCharactersIndex(index);
 }
 
 void EducationalApp::receiveCharacter(Character& character){
@@ -114,4 +118,8 @@ void EducationalApp::receiveCharacter(Character& character){
 
 void EducationalApp::popupCraftTable(){
     craftCharacter.show();
+}
+
+void EducationalApp::receiveCorrectness(int correctness){
+    ui->correctness->setValue(correctness);
 }

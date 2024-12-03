@@ -47,6 +47,8 @@ public slots:
     ///
     void receiveAPIKey(std::string apiKey);
 
+    void receiveSelectedCharactersIndex(int index);
+
 signals:
     ///
     /// \brief sendOverlayImage update the canvas. image is user's drawed overlayed on a character image
@@ -69,6 +71,8 @@ signals:
     /// \param isThereNewCharacter
     ///
     void sendCraftResult(bool isThereNewCharacter);
+
+    void sendCorrectness(int correctness);
 };
 
 #endif // MODEL_H
