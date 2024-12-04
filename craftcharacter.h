@@ -5,6 +5,7 @@
 #include <QMainWindow>
 #include <QPushButton>
 #include "model.h"
+#include "box2dwidget.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -48,6 +49,7 @@ signals:
 
 private:
     Ui::craftCharacter *ui;
+    box2DWidget* m_box2DWidget;
 };
 
 #endif // CRAFTCHARACTER_H

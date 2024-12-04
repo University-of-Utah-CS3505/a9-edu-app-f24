@@ -20,6 +20,7 @@ EducationalApp::EducationalApp(Model &m, QWidget *parent)
 
     connect(ui->Canvas, &CanvasLabel::sendMouseEvent, &m, &Model::receiveMouseEvent);
 
+
     connect(&m, &Model::sendOverlayImage, this, &EducationalApp::receiveImage);
     connect(&m, &Model::sendNewCharacter, this, &EducationalApp::receiveNewCharacter);
     connect(&m, &Model::sendRequestedCharacter, this, &EducationalApp::receiveCharacter);
@@ -53,8 +54,6 @@ EducationalApp::EducationalApp(Model &m, QWidget *parent)
     ui->CharacterSelector->setWidget(characterOverviewContainer);
     ui->CharacterSelector->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->CharacterSelector->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-
-
 
 }
 

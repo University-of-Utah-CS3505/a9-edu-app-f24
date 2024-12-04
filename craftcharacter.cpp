@@ -8,6 +8,7 @@ craftCharacter::craftCharacter(QWidget *parent)
 {
     ui->setupUi(this);
 
+
     //the way this ui communicate with model radical dataset is in the educational app ui
     // setup the scroll area to contain the button
     characterOverviewContainer = new QWidget;
@@ -22,6 +23,19 @@ craftCharacter::craftCharacter(QWidget *parent)
     ui->CharacterSelector->setWidget(characterOverviewContainer);
     ui->CharacterSelector->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->CharacterSelector->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+
+    // Create the Box2D widget
+    m_box2DWidget = new box2DWidget(this);
+
+    // Create a central widget to hold layouts
+    QWidget* centralWidget = new QWidget(this);
+    QVBoxLayout* mainLayout = new QVBoxLayout(centralWidget);
+
+    // Add the Box2D widget to the layout
+    mainLayout->addWidget(m_box2DWidget);
+
+    // Set the central widget
+    setCentralWidget(centralWidget);
 
     //connect api part
     connect(this->ui->apiKey, &QTextEdit::textChanged, this, &craftCharacter::apiKeyChanged);
@@ -63,6 +77,11 @@ void craftCharacter::receiveCharacter(Character& character){
     // for box 2d, this is the slot, when model send the user clicked radical,
     // the box 2d will drop a box with this character in the box
     qDebug() << "craft received";
+
+    if (m_box2DWidget) {
+        // Drop the radical in the Box2D widget
+        m_box2DWidget->dropRadical(character);
+    }
 }
 
 void craftCharacter::apiKeyChanged(){

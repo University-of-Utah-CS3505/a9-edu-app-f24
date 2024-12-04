@@ -57,6 +57,7 @@ SOURCES += \
     Box2D/Dynamics/b2World.cpp \
     Box2D/Dynamics/b2WorldCallbacks.cpp \
     Box2D/Rope/b2Rope.cpp \
+    box2dwidget.cpp \
     canvaslabel.cpp \
     character.cpp \
     characterbutton.cpp \
@@ -114,6 +115,7 @@ HEADERS += \
     Box2D/Dynamics/b2World.h \
     Box2D/Dynamics/b2WorldCallbacks.h \
     Box2D/Rope/b2Rope.h \
+    box2dwidget.h \
     canvaslabel.h \
     character.h \
     characterbutton.h \
