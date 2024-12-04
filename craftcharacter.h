@@ -39,7 +39,10 @@ public slots:
     void startCraftCharacter();
 
 signals:
-    //this can be used for get a character detail from model and send to box2D
+    ///
+    /// \brief sendSelectedCharacterIndexForCraft this can be used for get a character detail from model and send to box2D
+    /// \param requestCharacterIndex
+    ///
     void sendSelectedCharacterIndexForCraft(int requestCharacterIndex);
 
     void sendCraftCharacterRequest();

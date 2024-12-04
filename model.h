@@ -72,7 +72,7 @@ signals:
     ///
     void sendNewCharacter(Character& character, int index);
     ///
-    /// \brief sendRequestedCharacter this is the result of the "receiveCraftCharacterRequest", give character ui want
+    /// \brief sendRequestedCharacter this is the result of the "receiveCraftCharacterRequest", give character ui want (Only for Edu app class)
     /// \param character
     ///
     void sendRequestedCharacter(Character& character);
@@ -84,6 +84,10 @@ signals:
 
     void sendCorrectness(int correctness);
 
+    ///
+    /// \brief sendCraftSelectedCharacter This is for craft ui.
+    /// \param character
+    ///
     void sendCraftSelectedCharacter(const Character& character);
 };
 
