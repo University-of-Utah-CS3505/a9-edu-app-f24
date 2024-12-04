@@ -27,24 +27,24 @@ craftCharacter::craftCharacter(QWidget *parent)
     // Create the Box2D widget
     m_box2DWidget = new box2DWidget(this);
 
-    // Create a central widget to hold layouts
-    QWidget* centralWidget = new QWidget(this);
-    QVBoxLayout* mainLayout = new QVBoxLayout(centralWidget);
+    // // Create a central widget to hold layouts
+    // QWidget* centralWidget = new QWidget(this);
+    // QVBoxLayout* mainLayout = new QVBoxLayout(centralWidget);
 
-    // Add the Box2D widget to the layout
-    mainLayout->addWidget(m_box2DWidget);
+    // // Add the Box2D widget to the layout
+    // mainLayout->addWidget(m_box2DWidget);
 
-    // Set the central widget
-    setCentralWidget(centralWidget);
+    // // Set the central widget
+    // setCentralWidget(centralWidget);
+
+    ui->widget = m_box2DWidget;
+
 
     //connect api part
     connect(this->ui->apiKey, &QTextEdit::textChanged, this, &craftCharacter::apiKeyChanged);
 
     connect(this->ui->craftButton, &QPushButton::pressed, this, &craftCharacter::startCraftCharacter);
 
-    //DEBUG, PLEASE DELETE IT!!!!!!!
-    selectedCharacters.push_back("火");
-    selectedCharacters.push_back("火");
 }
 
 craftCharacter::~craftCharacter()
@@ -71,9 +71,9 @@ void craftCharacter::receiveNewCharacter(Character& character, int CharacterInde
 }
 
 void craftCharacter::receiveCharacterButtonIndex(int index){
-     emit sendGetCharacterRequest(index);
+     emit sendSelectedCharacterIndexForCraft(index);
 }
-void craftCharacter::receiveCharacter(Character& character){
+void craftCharacter::receiveCharacter(const Character& character){
     // for box 2d, this is the slot, when model send the user clicked radical,
     // the box 2d will drop a box with this character in the box
     qDebug() << "craft received";
@@ -89,7 +89,6 @@ void craftCharacter::apiKeyChanged(){
 }
 
 void craftCharacter::startCraftCharacter(){
-    emit sendCraftCharacterRequest(selectedCharacters);
-    selectedCharacters.clear();
+    emit sendCraftCharacterRequest();
     //TODO update the box2d about characters
 }

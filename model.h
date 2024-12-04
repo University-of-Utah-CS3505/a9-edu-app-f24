@@ -21,6 +21,7 @@ class Model : public QObject
     std::string jsonEX;
     std::string apiKey;
     QList<Character> characterLib;
+    QList<std::string> selectedCharactersForCraft;
     QImage canvas;
 
     QImage creatOverlayImage();
@@ -36,18 +37,27 @@ public slots:
     void receiveCleanCanvas();
     void receiveMouseEvent(QPoint pos, bool isMousePressed);
     void receiveGetCharacterRequest(int index);
-    ///
-    /// \brief receiveCraftCharacterRequest user will send this method a list of character, this method call chat gpt to craft new character
-    /// \param selectedCharacters
-    ///
-    void receiveCraftCharacterRequest(QList<std::string>& selectedCharacters);
+
+
+    void receiveCraftCharacterRequest();
     ///
     /// \brief receiveAPIKey receive the api key then store it in model
     /// \param apiKey
     ///
     void receiveAPIKey(std::string apiKey);
 
+    ///
+    /// \brief receiveSelectedCharactersIndex receive the index, only for edu app class!
+    /// \param index
+    ///
     void receiveSelectedCharactersIndex(int index);
+
+    ///
+    /// \brief receiveSelectedCharacterIndexForCraft only for craft character class!
+    /// \param index
+    ///
+    void receiveSelectedCharacterIndexForCraft(int index);
+
 
 signals:
     ///
@@ -73,6 +83,8 @@ signals:
     void sendCraftResult(bool isThereNewCharacter);
 
     void sendCorrectness(int correctness);
+
+    void sendCraftSelectedCharacter(const Character& character);
 };
 
 #endif // MODEL_H

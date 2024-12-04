@@ -9,6 +9,7 @@ Model::Model(QObject *parent)
     canvas.fill(Qt::transparent);
     characterIndex = 0;
     characterLib = QList<Character>();
+    selectedCharactersForCraft = QList<std::string>();
     initiallizeCharacterLib();
 
     QTimer::singleShot(1000,[=]{
@@ -82,14 +83,16 @@ void Model::receiveGetCharacterRequest(int index){
     emit sendRequestedCharacter(characterLib[index]);
 }
 
-void Model::receiveCraftCharacterRequest(QList<std::string>& selectedCharacters){
+void Model::receiveCraftCharacterRequest(){
     std::ostringstream oss;
 
-    for (std::string& character : selectedCharacters) {
+    for (std::string& character : selectedCharactersForCraft) {
         oss << character << ",";
     }
 
     std::string prompt = oss.str();
+
+    selectedCharactersForCraft.clear();
 
     QNetworkAccessManager* networkManager = new QNetworkAccessManager(this);
     QUrl url("https://api.openai.com/v1/chat/completions");
@@ -198,8 +201,11 @@ void Model::receiveSelectedCharactersIndex(int index){
         this->characterIndex = index;
         this->canvas.fill(Qt::transparent);
     }
+}
 
-
+void Model::receiveSelectedCharacterIndexForCraft(int index){
+    selectedCharactersForCraft.append(characterLib[index].getCharacter().toStdString());
+    emit sendCraftSelectedCharacter(characterLib[index]);
 }
 
 void Model::initiallizeCharacterLib(){

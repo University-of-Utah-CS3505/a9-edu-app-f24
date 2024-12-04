@@ -18,7 +18,6 @@ class craftCharacter : public QMainWindow
     Q_OBJECT
     QList<QPushButton *> allCharacters;
     /// characters that user selected and waiting to be send. Will be cleard after send
-    QList<std::string> selectedCharacters;
     QPushButton* lastButtonSelected;
     QWidget *characterOverviewContainer;
     QVBoxLayout * characterLayout;
@@ -30,7 +29,7 @@ public:
 public slots:
     //this is the method will get a new character from the model, then add it as a button in the UI
     void receiveNewCharacter(Character& character, int CharacterIndex);
-    void receiveCharacter(Character& character);
+    void receiveCharacter(const Character& character);
 
     //this will be implemented in the Receive new Charcter part
     void receiveCharacterButtonIndex(int index);
@@ -41,9 +40,9 @@ public slots:
 
 signals:
     //this can be used for get a character detail from model and send to box2D
-    void sendGetCharacterRequest(int requestCharacterIndex);
+    void sendSelectedCharacterIndexForCraft(int requestCharacterIndex);
 
-    void sendCraftCharacterRequest(QList<std::string>& characters);
+    void sendCraftCharacterRequest();
 
     void sendAPIKey(std::string apiKey);
 

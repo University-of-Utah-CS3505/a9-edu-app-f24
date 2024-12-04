@@ -30,8 +30,8 @@ EducationalApp::EducationalApp(Model &m, QWidget *parent)
 
     //this part will be the crafttable, which will connect to the model data set
     connect(&m, &Model::sendNewCharacter, &(this->craftCharacter), &craftCharacter::receiveNewCharacter);
-    connect(&m, &Model::sendRequestedCharacter, &(this->craftCharacter), &craftCharacter::receiveCharacter);
-    connect(&(this->craftCharacter), &craftCharacter::sendGetCharacterRequest, &m, &Model::receiveGetCharacterRequest);
+    connect(&m, &Model::sendCraftSelectedCharacter, &(this->craftCharacter), &craftCharacter::receiveCharacter);
+    connect(&(this->craftCharacter), &craftCharacter::sendSelectedCharacterIndexForCraft, &m, &Model::receiveSelectedCharacterIndexForCraft);
     connect(&(this->craftCharacter), &craftCharacter::sendCraftCharacterRequest, &m, &Model::receiveCraftCharacterRequest);
 
 
