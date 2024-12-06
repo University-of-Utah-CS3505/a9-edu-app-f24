@@ -14,12 +14,17 @@ class box2DWidget : public QWidget
 {
     Q_OBJECT
 
+    bool resized = false;
+    QList<QImage*> images;
 public:
     explicit box2DWidget(QWidget *parent = nullptr);
     ~box2DWidget();  // Destructor to clean up Box2D resources
 
     // Method to drop a radical with a specific character
-    void dropRadical(const Character& character);
+    void dropRadical(Character& character);
+
+    // Delete all objects in box2D
+    void clear();
 
 protected:
     // Override paint event to draw physics objects

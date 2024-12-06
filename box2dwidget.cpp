@@ -9,6 +9,7 @@
 const float32 TIME_STEP = 1.0f / 60.0f;
 const int32 VELOCITY_ITERATIONS = 6;
 const int32 POSITION_ITERATIONS = 2;
+const float32 SCALE = 50.0;
 
 box2DWidget::box2DWidget(QWidget *parent)
     : QWidget(parent),
@@ -21,6 +22,8 @@ box2DWidget::box2DWidget(QWidget *parent)
 
     // Initialize physics world
     initializePhysicsWorld();
+
+    images = QList<QImage*>();
 
     // Setup physics update timer
     m_physicTimer = new QTimer(this);
@@ -58,10 +61,10 @@ void box2DWidget::createGroundBody() {
 
     // Define the vertices for the container
     b2Vec2 vertices[4] = {
-        b2Vec2(150.0f, 200.0f),  // Top left
-        b2Vec2(300.0f, 400.0f),   // Top right
-        b2Vec2(150.0f, 200.0f),    // Bottom right
-        b2Vec2(-150.0f, 200.0f)    // Bottom left
+        b2Vec2(0, height() / SCALE),  // Top left
+        b2Vec2(width() / SCALE, height() / SCALE),   // Top right
+        b2Vec2(width() / SCALE, 0),    // Bottom right
+        b2Vec2(0, 0)    // Bottom left
     };
 
     // Create a closed loop shape
@@ -77,20 +80,29 @@ void box2DWidget::createGroundBody() {
     m_groundBody->CreateFixture(&containerFixtureDef);
 }
 
-void box2DWidget::dropRadical(const Character& character) {
+// Override resize event to adjust physics world
+void box2DWidget::resizeEvent(QResizeEvent *event){
+    if(!resized){
+        createGroundBody();
+        resized = true;
+    }
+}
+
+
+void box2DWidget::dropRadical(Character& character) {
     b2BodyDef bodyDef;
     bodyDef.type = b2_dynamicBody;
 
     // Use widget's width for random positioning
-    float randomX = QRandomGenerator::global()->bounded(300) - 150;
-    float randomY = 180.0f;  // Start from top of container
+    float randomX = QRandomGenerator::global()->bounded(width()/ SCALE);
+    float randomY = QRandomGenerator::global()->bounded(height()/ SCALE);
     bodyDef.position.Set(randomX, randomY);
     // Create body in the world
     b2Body* body = m_world->CreateBody(&bodyDef);
 
     // Create shape for radical (using a box shape)
     b2PolygonShape dynamicBox;
-    dynamicBox.SetAsBox(20.0f, 20.0f);  // Size is in meters
+    dynamicBox.SetAsBox(1.0f, 1.0f);  // Size is in meters
 
     // Debug: Show body position and container position
     qDebug() << "Body Position:" << body->GetPosition().x << body->GetPosition().y;
@@ -107,6 +119,8 @@ void box2DWidget::dropRadical(const Character& character) {
     body->SetUserData(new QString(tempCharacter.getCharacter()));    // Store the body for later rendering/cleanup
     m_radicalBodies.append(body);
 
+    images.push_back(&character.getImage());
+
     // Trigger a repaint to show the new radical
     update();
 }
@@ -115,18 +129,18 @@ void box2DWidget::updatePhysics() {
     // Step the physics world
     m_world->Step(TIME_STEP, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
 
-    // Remove bodies that are out of bounds
-    for (auto it = m_radicalBodies.begin(); it != m_radicalBodies.end();) {
-        b2Body* body = *it;
-        b2Vec2 position = body->GetPosition();
+    // // Remove bodies that are out of bounds
+    // for (auto it = m_radicalBodies.begin(); it != m_radicalBodies.end();) {
+    //     b2Body* body = *it;
+    //     b2Vec2 position = body->GetPosition();
 
-        if (position.y > height() + 100) {  // If fallen way below widget
-            m_world->DestroyBody(body);
-            it = m_radicalBodies.erase(it);
-        } else {
-            ++it;
-        }
-    }
+    //     if (position.y > height() + 100) {  // If fallen way below widget
+    //         m_world->DestroyBody(body);
+    //         it = m_radicalBodies.erase(it);
+    //     } else {
+    //         ++it;
+    //     }
+    // }
 
     // Update the widget
     update();
@@ -136,52 +150,38 @@ void box2DWidget::paintEvent(QPaintEvent *) {
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);
 
-    // Dynamic scaling based on actual widget size
-    float SCALE_X = static_cast<float>(width()) / 300.0f;
-    float SCALE_Y = static_cast<float>(height()) / 400.0f;
-    float SCALE = qMin(SCALE_X, SCALE_Y);
-
-    // Container dimensions now dynamically calculated
-    int containerWidth = 300;
-    int containerHeight = 400;
-
-    // Scale container dimensions to widget space
-    int scaledContainerWidth = containerWidth * SCALE;
-    int scaledContainerHeight = containerHeight * SCALE;
-
-    // Center the container in the widget
-    int containerX = (width() - scaledContainerWidth) / 2;
-    int containerY = (height() - scaledContainerHeight) / 2;
-
     // Draw container outline
     painter.setPen(QPen(Qt::black, 2));
     painter.setBrush(Qt::NoBrush);
-    painter.drawRect(containerX, containerY, scaledContainerWidth, scaledContainerHeight);
+    painter.drawRect(0, 0, width(), height());
 
+    int index = 0;
     // Draw radicals with updated scaling
     for (auto* body : m_radicalBodies) {
         b2Vec2 position = body->GetPosition();
         float angle = body->GetAngle();
 
+        qDebug() << "X:" << position.x << ", Y:" << position.y;
+
         // Apply scaling to Box2D world coordinates
-        int scaledX = containerX + position.x * SCALE;
-        int scaledY = containerY + position.y * SCALE;
+        int scaledX = position.x * SCALE;
+        int scaledY = position.y * SCALE;
 
         painter.save();
         painter.translate(scaledX, scaledY);
         painter.rotate(angle * 180.0f / b2_pi);
 
         // Adjusted box size based on scaling
-        painter.drawRect(-20 * SCALE / 2, -20 * SCALE / 2, 20 * SCALE, 20 * SCALE);
+        QRect rect = QRect(-1.0 * SCALE , -1.0 * SCALE, SCALE, SCALE);
+        painter.drawRect(rect);
+        painter.drawImage(rect, *images[index++]);
 
         painter.restore();
     }
 }
 
-void box2DWidget::resizeEvent(QResizeEvent *) {
-    // Recreate ground body when widget is resized
-    if (m_world && m_groundBody) {
-        m_world->DestroyBody(m_groundBody);
-        createGroundBody();
-    }
+void box2DWidget::clear(){
+    images.clear();
+    m_radicalBodies.clear();
+    update();
 }

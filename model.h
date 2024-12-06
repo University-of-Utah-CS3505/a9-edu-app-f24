@@ -88,7 +88,7 @@ signals:
     /// \brief sendCraftSelectedCharacter This is for craft ui.
     /// \param character
     ///
-    void sendCraftSelectedCharacter(const Character& character);
+    void sendCraftSelectedCharacter(Character& character);
 };
 
 #endif // MODEL_H

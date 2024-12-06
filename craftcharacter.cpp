@@ -25,7 +25,7 @@ craftCharacter::craftCharacter(QWidget *parent)
     ui->CharacterSelector->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 
     // Create the Box2D widget
-    m_box2DWidget = new box2DWidget(this);
+    m_box2DWidget = ui->box2DWidgetContainer ;
 
     // // Create a central widget to hold layouts
     // QWidget* centralWidget = new QWidget(this);
@@ -37,7 +37,7 @@ craftCharacter::craftCharacter(QWidget *parent)
     // // Set the central widget
     // setCentralWidget(centralWidget);
 
-    ui->box2DWidgetContainer = m_box2DWidget;
+    //ui->box2DWidgetContainer = m_box2DWidget;
 
 
     //connect api part
@@ -74,7 +74,7 @@ void craftCharacter::receiveNewCharacter(Character& character, int CharacterInde
 void craftCharacter::receiveCharacterButtonIndex(int index){
      emit sendSelectedCharacterIndexForCraft(index);
 }
-void craftCharacter::receiveCharacter(const Character& character){
+void craftCharacter::receiveCharacter(Character& character){
     // for box 2d, this is the slot, when model send the user clicked radical,
     // the box 2d will drop a box with this character in the box
     qDebug() << "craft received";
@@ -92,4 +92,5 @@ void craftCharacter::apiKeyChanged(){
 void craftCharacter::startCraftCharacter(){
     emit sendCraftCharacterRequest();
     //TODO update the box2d about characters
+    m_box2DWidget->clear();
 }
