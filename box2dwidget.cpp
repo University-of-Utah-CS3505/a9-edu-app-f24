@@ -58,8 +58,8 @@ void box2DWidget::createGroundBody() {
 
     // Define the vertices for the container
     b2Vec2 vertices[4] = {
-        b2Vec2(-150.0f, -200.0f),  // Top left
-        b2Vec2(150.0f, -200.0f),   // Top right
+        b2Vec2(150.0f, 200.0f),  // Top left
+        b2Vec2(300.0f, 400.0f),   // Top right
         b2Vec2(150.0f, 200.0f),    // Bottom right
         b2Vec2(-150.0f, 200.0f)    // Bottom left
     };
@@ -78,22 +78,22 @@ void box2DWidget::createGroundBody() {
 }
 
 void box2DWidget::dropRadical(const Character& character) {
-
-    // Create body definition for radical
     b2BodyDef bodyDef;
     bodyDef.type = b2_dynamicBody;
 
-    // Random horizontal position within container
-    float32 randomX = QRandomGenerator::global()->generateDouble() * 300.0f - 150.0f;
-    bodyDef.position.Set(randomX, -180.0f);  // Start from top of container
-    bodyDef.angle = QRandomGenerator::global()->generateDouble() * 3.14f; // Random initial rotation
-
+    // Use widget's width for random positioning
+    float randomX = QRandomGenerator::global()->bounded(300) - 150;
+    float randomY = 180.0f;  // Start from top of container
+    bodyDef.position.Set(randomX, randomY);
     // Create body in the world
     b2Body* body = m_world->CreateBody(&bodyDef);
 
     // Create shape for radical (using a box shape)
     b2PolygonShape dynamicBox;
-    dynamicBox.SetAsBox(20.0f, 20.0f);  // Adjust size as needed
+    dynamicBox.SetAsBox(20.0f, 20.0f);  // Size is in meters
+
+    // Debug: Show body position and container position
+    qDebug() << "Body Position:" << body->GetPosition().x << body->GetPosition().y;
 
     // Create fixture
     b2FixtureDef fixtureDef;
@@ -101,10 +101,10 @@ void box2DWidget::dropRadical(const Character& character) {
     fixtureDef.density = 1.0f;
     fixtureDef.friction = 0.3f;
     fixtureDef.restitution = 0.5f;  // Bouncy factor
-
     body->CreateFixture(&fixtureDef);
 
-    // Store the body for later rendering/cleanup
+    Character tempCharacter = character;
+    body->SetUserData(new QString(tempCharacter.getCharacter()));    // Store the body for later rendering/cleanup
     m_radicalBodies.append(body);
 
     // Trigger a repaint to show the new radical
@@ -136,27 +136,44 @@ void box2DWidget::paintEvent(QPaintEvent *) {
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);
 
-    // Calculate container position
-    int containerWidth = 300;  // Matches wall dimensions from createGroundBody
+    // Dynamic scaling based on actual widget size
+    float SCALE_X = static_cast<float>(width()) / 300.0f;
+    float SCALE_Y = static_cast<float>(height()) / 400.0f;
+    float SCALE = qMin(SCALE_X, SCALE_Y);
+
+    // Container dimensions now dynamically calculated
+    int containerWidth = 300;
     int containerHeight = 400;
-    int containerX = (width() - containerWidth) / 2;
-    int containerY = (height() - containerHeight) / 2;
+
+    // Scale container dimensions to widget space
+    int scaledContainerWidth = containerWidth * SCALE;
+    int scaledContainerHeight = containerHeight * SCALE;
+
+    // Center the container in the widget
+    int containerX = (width() - scaledContainerWidth) / 2;
+    int containerY = (height() - scaledContainerHeight) / 2;
 
     // Draw container outline
     painter.setPen(QPen(Qt::black, 2));
     painter.setBrush(Qt::NoBrush);
-    painter.drawRect(containerX, containerY, containerWidth, containerHeight);
+    painter.drawRect(containerX, containerY, scaledContainerWidth, scaledContainerHeight);
 
-    // Draw radicals
-    painter.setBrush(Qt::blue);
+    // Draw radicals with updated scaling
     for (auto* body : m_radicalBodies) {
         b2Vec2 position = body->GetPosition();
-        float32 angle = body->GetAngle();
+        float angle = body->GetAngle();
+
+        // Apply scaling to Box2D world coordinates
+        int scaledX = containerX + position.x * SCALE;
+        int scaledY = containerY + position.y * SCALE;
 
         painter.save();
-        painter.translate(containerX + position.x, containerY + position.y);
+        painter.translate(scaledX, scaledY);
         painter.rotate(angle * 180.0f / b2_pi);
-        painter.drawRect(-20, -20, 40, 40);  // Match box size from body definition
+
+        // Adjusted box size based on scaling
+        painter.drawRect(-20 * SCALE / 2, -20 * SCALE / 2, 20 * SCALE, 20 * SCALE);
+
         painter.restore();
     }
 }

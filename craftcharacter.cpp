@@ -37,13 +37,14 @@ craftCharacter::craftCharacter(QWidget *parent)
     // // Set the central widget
     // setCentralWidget(centralWidget);
 
-    ui->widget = m_box2DWidget;
+    ui->box2DWidgetContainer = m_box2DWidget;
 
 
     //connect api part
     connect(this->ui->apiKey, &QTextEdit::textChanged, this, &craftCharacter::apiKeyChanged);
 
     connect(this->ui->craftButton, &QPushButton::pressed, this, &craftCharacter::startCraftCharacter);
+
 
 }
 
