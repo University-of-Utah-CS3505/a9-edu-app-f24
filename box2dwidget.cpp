@@ -129,20 +129,6 @@ void box2DWidget::updatePhysics() {
     // Step the physics world
     m_world->Step(TIME_STEP, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
 
-    // // Remove bodies that are out of bounds
-    // for (auto it = m_radicalBodies.begin(); it != m_radicalBodies.end();) {
-    //     b2Body* body = *it;
-    //     b2Vec2 position = body->GetPosition();
-
-    //     if (position.y > height() + 100) {  // If fallen way below widget
-    //         m_world->DestroyBody(body);
-    //         it = m_radicalBodies.erase(it);
-    //     } else {
-    //         ++it;
-    //     }
-    // }
-
-    // Update the widget
     update();
 }
 

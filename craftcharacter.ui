@@ -6,19 +6,73 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1280</width>
-    <height>875</height>
+    <width>1227</width>
+    <height>841</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>740</y>
+      <width>53</width>
+      <height>15</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>API key</string>
+    </property>
+    <property name="textFormat">
+     <enum>Qt::TextFormat::AutoText</enum>
+    </property>
+   </widget>
+   <widget class="QTextEdit" name="apiKey">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>760</y>
+      <width>201</width>
+      <height>31</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="box2DWidget" name="box2DWidgetContainer" native="true">
+    <property name="geometry">
+     <rect>
+      <x>210</x>
+      <y>250</y>
+      <width>1001</width>
+      <height>541</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="hintButton">
+    <property name="geometry">
+     <rect>
+      <x>830</x>
+      <y>180</y>
+      <width>381</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>18</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Hint</string>
+    </property>
+   </widget>
    <widget class="QLabel" name="chracterLabel">
     <property name="geometry">
      <rect>
-      <x>270</x>
-      <y>560</y>
+      <x>210</x>
+      <y>0</y>
       <width>251</width>
       <height>241</height>
      </rect>
@@ -35,13 +89,54 @@
      <string/>
     </property>
    </widget>
+   <widget class="QScrollArea" name="CharacterSelector">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>201</width>
+      <height>731</height>
+     </rect>
+    </property>
+    <property name="widgetResizable">
+     <bool>true</bool>
+    </property>
+    <widget class="QWidget" name="scrollAreaWidgetContents">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>199</width>
+       <height>729</height>
+      </rect>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QPushButton" name="craftButton">
+    <property name="geometry">
+     <rect>
+      <x>470</x>
+      <y>180</y>
+      <width>351</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>18</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Craft</string>
+    </property>
+   </widget>
    <widget class="QLabel" name="defLabel">
     <property name="geometry">
      <rect>
-      <x>530</x>
-      <y>560</y>
+      <x>470</x>
+      <y>0</y>
       <width>741</width>
-      <height>241</height>
+      <height>171</height>
      </rect>
     </property>
     <property name="font">
@@ -61,115 +156,14 @@
      <string/>
     </property>
    </widget>
-   <widget class="QPushButton" name="craftButton">
-    <property name="geometry">
-     <rect>
-      <x>640</x>
-      <y>450</y>
-      <width>231</width>
-      <height>91</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QPushButton {
-    background-color: #A9A9A9;  /* 灰色背景 */
-    color: white;               /* 白色文字 */
-    border: 2px solid #696969;  /* 深灰色边框 */
-    border-radius: 10px;        /* 圆角半径 */
-    padding: 5px 10px;          /* 内边距 */
-    font: bold 14px 'Microsoft YaHei'; /* 字体设置 */
-}
-QPushButton:hover {
-    background-color: #BEBEBE;  /* 鼠标悬停时的背景色 */
-}
-QPushButton:pressed {
-    background-color: #808080;  /* 按下时的背景色 */
-}</string>
-    </property>
-    <property name="text">
-     <string>PushButton</string>
-    </property>
-   </widget>
-   <widget class="QScrollArea" name="CharacterSelector">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>10</y>
-      <width>201</width>
-      <height>731</height>
-     </rect>
-    </property>
-    <property name="widgetResizable">
-     <bool>true</bool>
-    </property>
-    <widget class="QWidget" name="scrollAreaWidgetContents">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>0</y>
-       <width>199</width>
-       <height>729</height>
-      </rect>
-     </property>
-    </widget>
-   </widget>
-   <widget class="QTextEdit" name="apiKey">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>770</y>
-      <width>201</width>
-      <height>31</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_3">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>750</y>
-      <width>53</width>
-      <height>15</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>API key</string>
-    </property>
-    <property name="textFormat">
-     <enum>Qt::TextFormat::AutoText</enum>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="hintButton">
-    <property name="geometry">
-     <rect>
-      <x>920</x>
-      <y>510</y>
-      <width>92</width>
-      <height>28</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Hint</string>
-    </property>
-   </widget>
-   <widget class="box2DWidget" name="box2DWidgetContainer" native="true">
-    <property name="geometry">
-     <rect>
-      <x>250</x>
-      <y>20</y>
-      <width>981</width>
-      <height>401</height>
-     </rect>
-    </property>
-   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1280</width>
-     <height>42</height>
+     <width>1227</width>
+     <height>20</height>
     </rect>
    </property>
   </widget>
