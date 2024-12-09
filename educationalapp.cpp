@@ -16,8 +16,6 @@ EducationalApp::EducationalApp(Model &m, QWidget *parent)
     connect(this, &EducationalApp::sendClearCanvasSignal, &m, &Model::receiveCleanCanvas);
     connect(this, &EducationalApp::sendGetCharacterRequest, &m, &Model::receiveGetCharacterRequest);
     connect(this, &EducationalApp::sendSelectNewCharactersIndex, &m, &Model::receiveSelectedCharactersIndex);
-
-
     connect(ui->Canvas, &CanvasLabel::sendMouseEvent, &m, &Model::receiveMouseEvent);
 
 
@@ -82,8 +80,6 @@ void EducationalApp::sendCleanCanvas(){
 void EducationalApp::receiveImage(QImage image){
     ui->Canvas->setPixmap(QPixmap::fromImage(image));
 }
-
-
 
 void EducationalApp::receiveNewCharacter(Character& character, int CharacterIndex)
 {

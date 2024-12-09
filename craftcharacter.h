@@ -6,6 +6,7 @@
 #include <QPushButton>
 #include "model.h"
 #include "box2dwidget.h"
+#include "hint.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -21,7 +22,7 @@ class craftCharacter : public QMainWindow
     QPushButton* lastButtonSelected;
     QWidget *characterOverviewContainer;
     QVBoxLayout * characterLayout;
-
+    Hint hint;
 public:
     explicit craftCharacter(QWidget *parent = nullptr);
     ~craftCharacter();
@@ -30,6 +31,9 @@ public slots:
     //this is the method will get a new character from the model, then add it as a button in the UI
     void receiveNewCharacter(Character& character, int CharacterIndex);
     void receiveCharacter(Character& character);
+
+    //popup hint window
+    void popupHitWindows();
 
     //this will be implemented in the Receive new Charcter part
     void receiveCharacterButtonIndex(int index);

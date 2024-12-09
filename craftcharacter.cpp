@@ -45,6 +45,9 @@ craftCharacter::craftCharacter(QWidget *parent)
 
     connect(this->ui->craftButton, &QPushButton::pressed, this, &craftCharacter::startCraftCharacter);
 
+    //For poping up hint window after press the hint button
+    connect(ui->hintButton, &QPushButton::pressed, this, &craftCharacter::popupHitWindows);
+
 
 }
 
@@ -87,6 +90,10 @@ void craftCharacter::receiveCharacter(Character& character){
 
 void craftCharacter::apiKeyChanged(){
     emit sendAPIKey(this->ui->apiKey->toPlainText().toStdString());
+}
+
+void craftCharacter::popupHitWindows(){
+    hint.show();
 }
 
 void craftCharacter::startCraftCharacter(){

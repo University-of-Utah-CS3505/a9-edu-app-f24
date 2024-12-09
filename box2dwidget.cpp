@@ -147,8 +147,6 @@ void box2DWidget::paintEvent(QPaintEvent *) {
         b2Vec2 position = body->GetPosition();
         float angle = body->GetAngle();
 
-        qDebug() << "X:" << position.x << ", Y:" << position.y;
-
         // Apply scaling to Box2D world coordinates
         int scaledX = position.x * SCALE;
         int scaledY = position.y * SCALE;
