@@ -6,11 +6,15 @@
 #include <QDebug>
 
 // Physics simulation constants
-const float32 TIME_STEP = 1.0f / 60.0f;
-const int32 VELOCITY_ITERATIONS = 6;
-const int32 POSITION_ITERATIONS = 2;
-const float32 SCALE = 50.0;
+const float32 TIME_STEP = 1.0f / 60.0f; // Simulation time step
+const int32 VELOCITY_ITERATIONS = 6;    // Velocity constraint solver iterations
+const int32 POSITION_ITERATIONS = 2;   // Position constraint solver iterations
+const float32 SCALE = 50.0;            // Scaling factor for Box2D coordinates to pixels
 
+/// <summary>
+/// Constructs a box2DWidget instance and sets up the Box2D physics world.
+/// Initializes the timer for physics simulation updates.
+/// </summary>
 box2DWidget::box2DWidget(QWidget *parent)
     : QWidget(parent),
     m_world(nullptr),
@@ -31,6 +35,9 @@ box2DWidget::box2DWidget(QWidget *parent)
     m_physicTimer->start(16); // ~60 FPS
 }
 
+/// <summary>
+/// Destructor to clean up Box2D resources.
+/// </summary>
 box2DWidget::~box2DWidget() {
     // Cleanup physics world
     if (m_world) {
@@ -38,6 +45,9 @@ box2DWidget::~box2DWidget() {
     }
 }
 
+/// <summary>
+/// Initializes the Box2D physics world with gravity and creates the ground body.
+/// </summary>
 void box2DWidget::initializePhysicsWorld() {
     // Create gravity vector (downward)
     b2Vec2 gravity(0.0f, 9.8f);
@@ -47,40 +57,38 @@ void box2DWidget::initializePhysicsWorld() {
     createGroundBody();
 }
 
+/// <summary>
+/// Creates the ground body and container walls in the Box2D world.
+/// </summary>
 void box2DWidget::createGroundBody() {
-    // If world is not initialized, return
-    if (!m_world) return;
+    if (!m_world) return; // Ensure the world is initialized
 
-    // Create container boundaries
+    // Define the static ground body
     b2BodyDef boundaryDef;
     boundaryDef.position.Set(0, 0);
     m_groundBody = m_world->CreateBody(&boundaryDef);
 
-    // Define container walls using b2ChainShape
+    // Define the container boundaries
     b2ChainShape containerShape;
-
-    // Define the vertices for the container
     b2Vec2 vertices[4] = {
         b2Vec2(0, height() / SCALE),  // Top left
         b2Vec2(width() / SCALE, height() / SCALE),   // Top right
         b2Vec2(width() / SCALE, 0),    // Bottom right
         b2Vec2(0, 0)    // Bottom left
     };
-
-    // Create a closed loop shape
     containerShape.CreateLoop(vertices, 4);
 
-    // Create fixture for the container
+    // Attach the boundaries to the ground body
     b2FixtureDef containerFixtureDef;
     containerFixtureDef.shape = &containerShape;
     containerFixtureDef.density = 0.0f;
     containerFixtureDef.friction = 0.5f;
-
-    // Create the fixture on the ground body
     m_groundBody->CreateFixture(&containerFixtureDef);
 }
 
-// Override resize event to adjust physics world
+/// <summary>
+/// Handles widget resizing and adjusts the physics container.
+/// </summary>
 void box2DWidget::resizeEvent(QResizeEvent *event){
     if(!resized){
         createGroundBody();
@@ -88,66 +96,66 @@ void box2DWidget::resizeEvent(QResizeEvent *event){
     }
 }
 
-
+/// <summary>
+/// Drops a radical with a specified character at a random position.
+/// </summary>
 void box2DWidget::dropRadical(Character& character) {
     b2BodyDef bodyDef;
     bodyDef.type = b2_dynamicBody;
 
-    // Use widget's width for random positioning
+    // Generate random starting position
     float randomX = QRandomGenerator::global()->bounded(width()/ SCALE);
     float randomY = QRandomGenerator::global()->bounded(height()/ SCALE);
     bodyDef.position.Set(randomX, randomY);
-    // Create body in the world
+
+    // Create dynamic body in the world
     b2Body* body = m_world->CreateBody(&bodyDef);
 
-    // Create shape for radical (using a box shape)
+    // Define the shape and properties of the radical
     b2PolygonShape dynamicBox;
-    dynamicBox.SetAsBox(1.0f, 1.0f);  // Size is in meters
-
-    // Debug: Show body position and container position
-    qDebug() << "Body Position:" << body->GetPosition().x << body->GetPosition().y;
-
-    // Create fixture
+    dynamicBox.SetAsBox(1.0f, 1.0f);  // 1x1 meter size
     b2FixtureDef fixtureDef;
     fixtureDef.shape = &dynamicBox;
     fixtureDef.density = 1.0f;
     fixtureDef.friction = 0.3f;
-    fixtureDef.restitution = 0.5f;  // Bouncy factor
+    fixtureDef.restitution = 0.5f;  // Bounciness
     body->CreateFixture(&fixtureDef);
 
-    Character tempCharacter = character;
-    body->SetUserData(new QString(tempCharacter.getCharacter()));    // Store the body for later rendering/cleanup
+    // Store character data and add to the list
+    body->SetUserData(new QString(character.getCharacter()));
     m_radicalBodies.append(body);
-
     images.push_back(&character.getImage());
 
-    // Trigger a repaint to show the new radical
+    // Trigger a repaint
     update();
 }
 
+/// <summary>
+/// Advances the physics simulation by one step.
+/// </summary>
 void box2DWidget::updatePhysics() {
-    // Step the physics world
     m_world->Step(TIME_STEP, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
-
     update();
 }
 
+/// <summary>
+/// Paints the Box2D world and rendered objects on the widget.
+/// </summary>
 void box2DWidget::paintEvent(QPaintEvent *) {
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);
 
-    // Draw container outline
+    // Draw the container outline
     painter.setPen(QPen(Qt::black, 2));
     painter.setBrush(Qt::NoBrush);
     painter.drawRect(0, 0, width(), height());
 
     int index = 0;
-    // Draw radicals with updated scaling
+    // Draw all radicals
     for (auto* body : m_radicalBodies) {
         b2Vec2 position = body->GetPosition();
         float angle = body->GetAngle();
 
-        // Apply scaling to Box2D world coordinates
         int scaledX = position.x * SCALE;
         int scaledY = position.y * SCALE;
 
@@ -155,8 +163,7 @@ void box2DWidget::paintEvent(QPaintEvent *) {
         painter.translate(scaledX, scaledY);
         painter.rotate(angle * 180.0f / b2_pi);
 
-        // Adjusted box size based on scaling
-        QRect rect = QRect(-1.0 * SCALE , -1.0 * SCALE, SCALE, SCALE);
+        QRect rect = QRect(-1.0 * SCALE, -1.0 * SCALE, SCALE, SCALE);
         painter.drawRect(rect);
         painter.drawImage(rect, *images[index++]);
 
@@ -164,6 +171,9 @@ void box2DWidget::paintEvent(QPaintEvent *) {
     }
 }
 
+/// <summary>
+/// Clears all radicals from the physics world.
+/// </summary>
 void box2DWidget::clear(){
     images.clear();
     m_radicalBodies.clear();

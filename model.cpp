@@ -1,6 +1,12 @@
 #include "model.h"
 
-
+/*
+ * Class: Model
+ * Purpose: Handles the core logic for an educational application. It manages the painting canvas,
+ *          character crafting, API interactions, and communication with the view through signals.
+ * Team Members: Bingkun Han, Shu Chen, Rohith Veeramachaneni, Ping-Hsun Hsieh
+ * Course: CS3500 - A9 Educational App
+ */
 Model::Model(QObject *parent)
     : QObject{parent}
 {
@@ -20,15 +26,28 @@ Model::Model(QObject *parent)
 
 }
 
+/*
+ * Method: receiveIsBrushPainting
+ * Purpose: Updates the painting state (painting or erasing).
+ */
 void Model::receiveIsBrushPainting(bool isPainting){
     this->isPainting = isPainting;
 }
 
+/*
+ * Method: receiveCleanCanvas
+ * Purpose: Clears the painting canvas and emits an updated overlay image.
+ */
 void Model::receiveCleanCanvas(){
     canvas.fill(Qt::transparent);
     emit sendOverlayImage(creatOverlayImage());
 }
 
+/*
+ * Method: receiveMouseEvent
+ * Purpose: Handles mouse events to either paint or erase on the canvas.
+ * Parameters: pos - Mouse position, isMousePressed - Whether the mouse is pressed.
+ */
 void Model::receiveMouseEvent(QPoint pos, bool isMousePressed) {
     if (!isMousePressed) return;
 
@@ -49,6 +68,10 @@ void Model::receiveMouseEvent(QPoint pos, bool isMousePressed) {
     emit sendCorrectness(int(checkCorrectness() * 100));
 }
 
+/*
+ * Method: creatOverlayImage
+ * Purpose: Creates and returns a composite image of the character and the canvas.
+ */
 QImage Model::creatOverlayImage(){
     QImage result(canvas.size(), QImage::Format_ARGB32);
     result.fill(Qt::transparent);
@@ -58,6 +81,11 @@ QImage Model::creatOverlayImage(){
     return result;
 }
 
+/*
+ * Method: checkCorrectness
+ * Purpose: Compares the canvas with the target character image to calculate correctness.
+ * Returns: Float value representing the correctness percentage.
+ */
 float Model::checkCorrectness(){
     float correctness = 0;
     float point = 1.0 / characterLib[characterIndex].getBlackPixelCount() * 1.1;
@@ -79,10 +107,19 @@ float Model::checkCorrectness(){
     return correctness;
 }
 
+/*
+ * Method: receiveGetCharacterRequest
+ * Purpose: Emits the requested character from the library.
+ * Parameters: index - Index of the requested character.
+ */
 void Model::receiveGetCharacterRequest(int index){
     emit sendRequestedCharacter(characterLib[index]);
 }
 
+/*
+ * Method: receiveCraftCharacterRequest
+ * Purpose: Handles character crafting using the OpenAI API.
+ */
 void Model::receiveCraftCharacterRequest(){
     std::ostringstream oss;
 
@@ -192,10 +229,19 @@ void Model::receiveCraftCharacterRequest(){
 
 }
 
+/*
+ * Method: receiveAPIKey
+ * Purpose: Sets the API key for external API requests.
+ * Parameters: apiKey - The API key as a string.
+ */
 void Model::receiveAPIKey(std::string apiKey){
     this->apiKey = apiKey;
 }
 
+/*
+ * Method: receiveSelectedCharactersIndex
+ * Purpose: Updates the current character index and resets the canvas.
+ */
 void Model::receiveSelectedCharactersIndex(int index){
     if(this->characterIndex != index){
         this->characterIndex = index;
@@ -203,11 +249,20 @@ void Model::receiveSelectedCharactersIndex(int index){
     }
 }
 
+/*
+ * Method: receiveSelectedCharacterIndexForCraft
+ * Purpose: Adds the selected character to the crafting list.
+ * Parameters: index - Index of the character to add.
+ */
 void Model::receiveSelectedCharacterIndexForCraft(int index){
     selectedCharactersForCraft.append(characterLib[index].getCharacter().toStdString());
     emit sendCraftSelectedCharacter(characterLib[index]);
 }
 
+/*
+ * Method: initiallizeCharacterLib
+ * Purpose: Populates the character library with predefined characters.
+ */
 void Model::initiallizeCharacterLib(){
     characterLib.clear();
     characterLib.push_back(Character(QString("火"), QString("huo3"), QString("flame, fire")));

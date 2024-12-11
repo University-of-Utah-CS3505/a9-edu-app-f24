@@ -1,21 +1,12 @@
 #include "canvaslabel.h"
 
 
-/**
- * @brief CanvasLabel::CanvasLabel
- *
- *  Team Name : Sam's Club
- *
- *  Team Members : Rohith Veeramachaneni, Shu Chen, Bingkun Han and PING-HSUN HSIEH
- *
- *  Contributor's Names of canvasLabel.cpp : Shu Chen
- *
- *  Date Modified : November 10, 2024
- *
- *  CanvasLabel class contains methods such as paintEvent,setOffset, mousePressEvent,
- *  mouseMove, mouseRelease, wheelEvent to simulate a canvas object
-
- */
+/// <summary>
+/// The CanvasLabel class extends QLabel to enable custom mouse event handling and drawing functionalities.
+/// It supports emitting signals for mouse events, providing the position and mouse state for further processing.
+/// Team Members: Bingkun Han, Shu Chen, Rohith Veeramachaneni, Ping-Hsun Hsieh
+/// Course: CS3500 - A9 Educational App
+/// </summary>
 
 
 ///

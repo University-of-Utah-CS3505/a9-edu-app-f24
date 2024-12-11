@@ -10,6 +10,12 @@ class b2World;
 class b2Body;
 class Character;  // Include your Character class forward declaration
 
+/// <summary>
+/// The box2DWidget class provides a custom QWidget for simulating and displaying a Box2D physics world.
+/// It manages the creation, updating, and rendering of physics objects, including dynamic bodies and the ground.
+/// Team Members: Bingkun Han, Shu Chen, Rohith Veeramachaneni, Ping-Hsun Hsieh
+/// Course: CS3500 - A9 Educational App
+/// </summary>
 class box2DWidget : public QWidget
 {
     Q_OBJECT
@@ -17,46 +23,60 @@ class box2DWidget : public QWidget
     bool resized = false;
     QList<QImage*> images;
 public:
+    /// <summary>
+    /// Constructs a box2DWidget instance.
+    /// Initializes the physics world and sets up the widget.
+    /// </summary>
     explicit box2DWidget(QWidget *parent = nullptr);
+
+    /// <summary>
+    /// Destructor for cleaning up Box2D resources.
+    /// </summary>
     ~box2DWidget();  // Destructor to clean up Box2D resources
 
-    // Method to drop a radical with a specific character
+    /// <summary>
+    /// Drops a radical with a specified character into the physics world.
+    /// </summary>
     void dropRadical(Character& character);
 
-    // Delete all objects in box2D
+    /// <summary>
+    /// Deletes all objects in the Box2D world.
+    /// </summary>
     void clear();
 
 protected:
-    // Override paint event to draw physics objects
+    /// <summary>
+    /// Paints the physics objects on the widget.
+    /// </summary>
     void paintEvent(QPaintEvent *event) override;
 
-    // Override resize event to adjust physics world
+    /// <summary>
+    /// Handles widget resizing and adjusts the physics world accordingly.
+    /// </summary>
     void resizeEvent(QResizeEvent *event) override;
 
 private:
-    // Box2D world pointer
-    b2World* m_world;
+    b2World* m_world;             ///< Pointer to the Box2D world
+    b2Body* m_groundBody;         ///< Ground body in the Box2D world
+    QList<b2Body*> m_radicalBodies; ///< List to store dynamic bodies (radicals)
+    QTimer* m_physicTimer;        ///< Timer for updating the physics simulation
 
-    // Ground body
-    b2Body* m_groundBody;
-
-    // List to store dynamic bodies (radicals)
-    QList<b2Body*> m_radicalBodies;
-
-    // Physics simulation timer
-    QTimer* m_physicTimer;
-
-    // Physics world initialization method
+    /// <summary>
+    /// Initializes the Box2D physics world.
+    /// </summary>
     void initializePhysicsWorld();
 
-    // Create ground body method
+    /// <summary>
+    /// Creates the ground body in the physics world.
+    /// </summary>
     void createGroundBody();
 
-    // Update physics simulation
+    /// <summary>
+    /// Updates the physics simulation at each time step.
+    /// </summary>
     void updatePhysics();
 
 signals:
-         // You can add signals here if needed
 };
 
 #endif // BOX2DWIDGET_H

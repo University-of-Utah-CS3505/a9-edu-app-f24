@@ -2,102 +2,122 @@
 #include "ui_craftcharacter.h"
 #include "characterbutton.h"
 
+/**
+ * @brief Constructs the craftCharacter object and initializes the UI components.
+ * @param parent Optional parent widget.
+ */
 craftCharacter::craftCharacter(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::craftCharacter)
 {
     ui->setupUi(this);
 
-
-    //the way this ui communicate with model radical dataset is in the educational app ui
-    // setup the scroll area to contain the button
+    // Setup the scroll area to contain the character buttons
     characterOverviewContainer = new QWidget;
     characterLayout = new QVBoxLayout(characterOverviewContainer);
     characterLayout->setAlignment(Qt::AlignTop);
     characterLayout->setContentsMargins(0, 0, 0, 0);
-    characterLayout->setSpacing(10); // set button spacing
+    characterLayout->setSpacing(10); // Set spacing between buttons
     characterOverviewContainer->setLayout(characterLayout);
 
-    // add scroll area to the Character selector weight area
+    // Add the scroll area to the character selector widget
     ui->CharacterSelector->setWidgetResizable(true);
     ui->CharacterSelector->setWidget(characterOverviewContainer);
     ui->CharacterSelector->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->CharacterSelector->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 
-    // Create the Box2D widget
-    m_box2DWidget = ui->box2DWidgetContainer ;
+    // Assign the Box2D widget
+    m_box2DWidget = ui->box2DWidgetContainer;
 
-    // // Create a central widget to hold layouts
-    // QWidget* centralWidget = new QWidget(this);
-    // QVBoxLayout* mainLayout = new QVBoxLayout(centralWidget);
+    // Connect the API key text edit to signal for API key changes
+    connect(ui->apiKey, &QTextEdit::textChanged, this, &craftCharacter::apiKeyChanged);
 
-    // // Add the Box2D widget to the layout
-    // mainLayout->addWidget(m_box2DWidget);
+    // Connect the craft button to start crafting characters
+    connect(ui->craftButton, &QPushButton::pressed, this, &craftCharacter::startCraftCharacter);
 
-    // // Set the central widget
-    // setCentralWidget(centralWidget);
-
-    //ui->box2DWidgetContainer = m_box2DWidget;
-
-
-    //connect api part
-    connect(this->ui->apiKey, &QTextEdit::textChanged, this, &craftCharacter::apiKeyChanged);
-
-    connect(this->ui->craftButton, &QPushButton::pressed, this, &craftCharacter::startCraftCharacter);
-
-    //For poping up hint window after press the hint button
+    // Connect the hint button to display the popup hint window
     connect(ui->hintButton, &QPushButton::pressed, this, &craftCharacter::popupHitWindows);
-
-
 }
 
+/**
+ * @brief Destructor for the craftCharacter class, cleaning up UI resources.
+ */
 craftCharacter::~craftCharacter()
 {
     delete ui;
 }
-void craftCharacter::receiveNewCharacter(Character& character, int CharacterIndex){
+
+/**
+ * @brief Receives a new character from the model and adds it as a button in the UI.
+ * @param character The character to add.
+ * @param CharacterIndex The index of the character.
+ */
+void craftCharacter::receiveNewCharacter(Character& character, int CharacterIndex)
+{
     qDebug() << "craft received new character" << character.getDef();
 
-
+    // Create a new button for the character
     CharacterButton *button = new CharacterButton(CharacterIndex);
-    button->setFixedSize(75, 75);
-    button->setIconSize(QSize(70, 70));
-    button->setIcon(QPixmap::fromImage(character.getImage()));
-    ui->chracterLabel->setPixmap(QPixmap::fromImage(character.getImage()));
-    ui->defLabel->setText(character.getDef());
+    button->setFixedSize(75, 75); // Set button size
+    button->setIconSize(QSize(70, 70)); // Set icon size
+    button->setIcon(QPixmap::fromImage(character.getImage())); // Set the character image
+    ui->chracterLabel->setPixmap(QPixmap::fromImage(character.getImage())); // Update character label
+    ui->defLabel->setText(character.getDef()); // Update definition label
 
+    // Connect button to handle sending its index when clicked
     connect(button, &CharacterButton::sendSelfIndex, this, &craftCharacter::receiveCharacterButtonIndex);
 
+    // Add the button to the layout
     characterLayout->addWidget(button);
+    characterOverviewContainer->adjustSize(); // Adjust the container size
 
-    characterOverviewContainer->adjustSize(); // adjust button to center
-    qDebug() << "Size: "<<characterLayout->count();
+    qDebug() << "Size: " << characterLayout->count(); // Log the current count of buttons
 }
 
-void craftCharacter::receiveCharacterButtonIndex(int index){
-     emit sendSelectedCharacterIndexForCraft(index);
+/**
+ * @brief Receives the index of a character button and emits a signal for crafting.
+ * @param index The index of the selected character.
+ */
+void craftCharacter::receiveCharacterButtonIndex(int index)
+{
+    emit sendSelectedCharacterIndexForCraft(index);
 }
-void craftCharacter::receiveCharacter(Character& character){
-    // for box 2d, this is the slot, when model send the user clicked radical,
-    // the box 2d will drop a box with this character in the box
+
+/**
+ * @brief Processes a character received from the model for Box2D interactions.
+ * @param character The character to process.
+ */
+void craftCharacter::receiveCharacter(Character& character)
+{
     qDebug() << "craft received";
 
     if (m_box2DWidget) {
-        // Drop the radical in the Box2D widget
+        // Drop the character in the Box2D widget
         m_box2DWidget->dropRadical(character);
     }
 }
 
-void craftCharacter::apiKeyChanged(){
-    emit sendAPIKey(this->ui->apiKey->toPlainText().toStdString());
+/**
+ * @brief Handles changes to the API key and emits the updated key.
+ */
+void craftCharacter::apiKeyChanged()
+{
+    emit sendAPIKey(ui->apiKey->toPlainText().toStdString());
 }
 
-void craftCharacter::popupHitWindows(){
+/**
+ * @brief Displays the hint window as a popup.
+ */
+void craftCharacter::popupHitWindows()
+{
     hint.show();
 }
 
-void craftCharacter::startCraftCharacter(){
+/**
+ * @brief Initiates the character crafting process and clears the Box2D widget.
+ */
+void craftCharacter::startCraftCharacter()
+{
     emit sendCraftCharacterRequest();
-    //TODO update the box2d about characters
-    m_box2DWidget->clear();
+    m_box2DWidget->clear(); // Clear the Box2D widget for new interactions
 }
